@@ -1,16 +1,20 @@
 import { Module } from '@nestjs/common';
-import { ClientesController } from './adapters/driving/ClientesController';
-import { ClientesService } from './domain/inboundPorts/ClienteService';
-import { ClientesPostgresRepository } from './adapters/driven/ClientesPostgres';
+import { ClientesController } from './adapters/driving/cliente.controller';
+import { ClientesService } from './domain/inboundPorts/cliente.service';
+import { ClientePostgresRepository } from './adapters/driven/cliente-postgres.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { IClienteRepository } from './domain/outboundPorts/Icliente.repository';
 
 @Module({
   controllers: [ClientesController],
   imports: [],
   providers: [
-    ClientesService,
     PrismaService,
-    ClientesPostgresRepository
+    ClientesService,
+    {
+      provide: IClienteRepository,
+      useClass: ClientePostgresRepository,
+    },
   ],
 })
 export class ClientesModule {}

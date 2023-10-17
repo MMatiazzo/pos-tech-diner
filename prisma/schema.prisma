@@ -12,7 +12,7 @@ datasource db {
 
 model Cliente {
   cpf   String @id
-  name  String
+  nome  String
   email String @unique
 
   @@map("clientes")
