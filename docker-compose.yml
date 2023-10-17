@@ -3,28 +3,30 @@ version: '3'
 services:
   api:
     depends_on:
-      - db
-    links:
-      - db
+      - postgres
     build:
-      dockerfile: Dockerfile
       context: .
+      dockerfile: Dockerfile
     volumes:
       - .:/usr/src/app
     ports:
-      - 3000:3000
-
-  db:
-    image: mariadb
+      - 3333:3333
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: postech
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    volumes:
-      - data:/var/lib/mysql
+      - DATABASE_URL=postgresql://postgres:postgres_password@postgres:5432/pos-tech-db?schema=public
+    links:
+      - postgres:postgres
+
+  postgres:
+    image: "postgres"
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: pos-tech-db
+      POSTGRES_PASSWORD: postgres_password
     ports:
-      - 3306:3306
+      - "5432:5432"
+    volumes:
+      - ./data/pg:/var/lib/postgresql/data
 
 volumes:
   data:
