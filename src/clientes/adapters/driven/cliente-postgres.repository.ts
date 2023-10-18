@@ -20,4 +20,15 @@ export class ClientePostgresRepository implements IClienteRepository {
     return cliente;
   }
 
+  async validaClienteExistente(cpf: string, email: string): Promise<Cliente[] | null> {
+    const cliente = await this.prismaRepository.cliente.findMany({
+      where: {
+        OR: [ 
+          {cpf}, 
+          {email}
+        ] 
+      }
+    });
+    return cliente;
+  }
 } 

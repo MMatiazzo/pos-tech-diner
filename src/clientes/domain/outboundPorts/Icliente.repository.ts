@@ -5,7 +5,8 @@ import { Cliente } from '../entities/cliente.entity';
  */
 export interface IClienteRepository {
   cadastrarCliente(cliente: Cliente): Promise<Cliente>;
-  pegaClientePorCpf(cpf: string): Promise<Cliente> | null | Promise<any[]>;
+  pegaClientePorCpf(cpf: string): Promise<Cliente | null>;
+  validaClienteExistente(cpf: string, email: string): Promise<Cliente[] | null>;
 }
 
 export const IClienteRepository = Symbol('IClienteRepository');

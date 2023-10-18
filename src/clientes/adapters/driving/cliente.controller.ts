@@ -8,7 +8,8 @@ export class ClientesController {
 
   @Post()
   async registrar(@Body() {cpf, nome, email}: Cliente ): Promise<Cliente> {
-    return await this.clientesService.cadastrarCliente(cpf, nome, email);
+    const cliente = await this.clientesService.cadastrarCliente(cpf, nome, email);
+    return cliente;
   }
 
   @Get(':cpf')
@@ -17,7 +18,6 @@ export class ClientesController {
     if(!cliente) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
-
     return cliente;
   }
 }
