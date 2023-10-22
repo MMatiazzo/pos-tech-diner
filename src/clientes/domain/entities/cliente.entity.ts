@@ -44,9 +44,8 @@ export class Cliente {
 
   static criarCliente(cpf: string, nome: string, email: string): Cliente {
     const isCpfValid = this.validaCpf(cpf);
-    const isEmailValid = /\S+@\S+\.\S+/.test(email);
 
-    if(!isCpfValid || !isEmailValid) {
+    if(!isCpfValid) {
       return null;
     }
 

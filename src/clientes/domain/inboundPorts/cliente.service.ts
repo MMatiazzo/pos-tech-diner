@@ -16,7 +16,7 @@ export class ClientesService implements IClientesService {
 
     const exists = await this.clienteRepository.validaClienteExistente(cpfOnlyNumbers, email);
     if(exists.length) {
-      throw new HttpException('Email or CPF already registered', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Email or CPF already registered', HttpStatus.BAD_REQUEST);
     }
 
     const novoCliente = Cliente.criarCliente(cpfOnlyNumbers, nome, email);

@@ -1,13 +1,14 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { Cliente } from '@prisma/client';
 import { ClientesService } from 'src/clientes/domain/inboundPorts/cliente.service';
+import { CadastroDto } from './dtos/cadastro.dto';
 
 @Controller('clientes')
 export class ClientesController {
   constructor(private clientesService: ClientesService) {}
 
   @Post()
-  async registrar(@Body() {cpf, nome, email}: Cliente ): Promise<Cliente> {
+  async registrar(@Body() {cpf, nome, email}: CadastroDto ): Promise<Cliente> {
     const cliente = await this.clientesService.cadastrarCliente(cpf, nome, email);
     return cliente;
   }
