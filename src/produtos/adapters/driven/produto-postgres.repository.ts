@@ -10,39 +10,33 @@ export class ProdutoPostresRepository implements IProdutoRepository {
   constructor(
     private prismaRepository: PrismaService
   ){}
+
   async cadastrar(novoProduto: Produto): Promise<Produto> {
     const produtoCriado = await this.prismaRepository.produtos.create({data: novoProduto});
     return produtoCriado;
   }
-  editar(id: string): Promise<Produto> {
-    throw new Error('Method not implemented.');
-  }
-  remover(id: string): Promise<Produto> {
-    throw new Error('Method not implemented.');
-  }
-  buscar(key: string[]): Promise<Produto[]> {
-    throw new Error('Method not implemented.');
+
+  async editar(id: string, campo: string, valor: string | number | string[]): Promise<Produto | never> {
+    const updateData = { [campo]: valor };
+    const produtoCriado = await this.prismaRepository.produtos.update({
+      where: {
+        id,
+      },
+      data:  updateData
+    });
+    return produtoCriado;
   }
 
-  // async cadastrar(novoCliente: Cliente): Promise<Cliente> {
-  //   const cliente = await this.prismaRepository.cliente.create({data: novoCliente});
-  //   return cliente;
-  // }
+  async remover(id: string): Promise<Produto | null> {
+    const produtoCriado = await this.prismaRepository.produtos.delete({where: {
+        id,
+      },
+    });
+    return produtoCriado;
+  }
 
-  // async pegaClientePorCpf(cpf: string): Promise<Cliente | null> {
-  //   const cliente = await this.prismaRepository.cliente.findUnique({where: { cpf }});
-  //   return cliente;
-  // }
-
-  // async validaClienteExistente(cpf: string, email: string): Promise<Cliente[] | null> {
-  //   const cliente = await this.prismaRepository.cliente.findMany({
-  //     where: {
-  //       OR: [ 
-  //         {cpf}, 
-  //         {email}
-  //       ] 
-  //     }
-  //   });
-  //   return cliente;
-  // }
+  async buscar(categoria: string): Promise<Produto[]> {
+    const produtos = await this.prismaRepository.produtos.findMany({ where: { categoria } });
+    return produtos;
+  }
 } 

@@ -16,13 +16,16 @@ export class ProdutosService implements IProdutosService {
     return produtoCadastrado;
   }
   
-  editar(id): Promise<Produto> {
-    throw new Error('Method not implemented.');
+  async editar(id: string, campo: string, valor: string | number | string[]): Promise<Produto | never> {
+    const produtoAtt = await this.produtoRepository.editar(id, campo, valor)
+    return produtoAtt;
   }
-  remover(id: string): Promise<Produto> {
-    throw new Error('Method not implemented.');
+  async remover(id: string): Promise<Produto | null> {
+    const produtoRemovido = await this.produtoRepository.remover(id);
+    return produtoRemovido;
   }
-  buscar(key: string[]): Promise<Produto[]> {
-    throw new Error('Method not implemented.');
+  async buscar(categoria: string): Promise<Produto[]> {
+    const produtos = await this.produtoRepository.buscar(categoria);
+    return produtos;
   }
 }
