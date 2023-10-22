@@ -1,11 +1,13 @@
-import { IProduto } from "./IProduto";
 
 export class Pedido {
-  id: number;
-  produtos: IProduto[];
+  status: string;
+  clienteCpf?: string;
 
-  setProdutos(produto: IProduto) {
-    // gera comando para setar produtos
-    this.produtos.push(produto)
+  static criaPedido(status: string, clienteCpf?: string): Pedido {
+    const novoPedido = new Pedido();
+    novoPedido.status = status;
+    if(clienteCpf) novoPedido.clienteCpf = clienteCpf;
+
+    return novoPedido;
   }
 }

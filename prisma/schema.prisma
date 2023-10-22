@@ -11,20 +11,44 @@ datasource db {
 }
 
 model Cliente {
-  cpf   String @id
-  nome  String
-  email String @unique
+  cpf    String   @id
+  nome   String
+  email  String   @unique
+  Pedido Pedido[]
 
   @@map("clientes")
 }
 
 model Produtos {
-  id        String   @id @default(uuid())
-  nome      String
-  categoria String
-  preco     Int
-  descricao String
-  imagens   String[]
+  id          String        @id @default(uuid())
+  nome        String
+  categoria   String
+  preco       Int
+  descricao   String
+  imagens     String[]
+  PedidoItems PedidoItems[]
 
   @@map("produtos")
+}
+
+model PedidoItems {
+  id String @id @default(uuid())
+
+  pedidoId String
+  pedidos  Pedido @relation(fields: [pedidoId], references: [id])
+
+  produtoId String
+  produtos  Produtos @relation(fields: [produtoId], references: [id])
+}
+
+model Pedido {
+  id     String @id @default(uuid())
+  status String
+
+  PedidoItems PedidoItems[]
+
+  clienteId String?
+  clientes  Cliente? @relation(fields: [clienteId], references: [cpf])
+
+  @@map("pedidos")
 }
