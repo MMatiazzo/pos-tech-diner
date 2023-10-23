@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Pedido } from '@prisma/client';
+import { Pedido } from 'src/pedidos/domain/entities/pedido.entity';
 import { IPedidosRepository } from 'src/pedidos/domain/outboundPorts/Ipedido.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -24,5 +24,10 @@ export class PeditosPostgres implements IPedidosRepository {
     Promise.all(pedidosItensPromise);
 
     return pedido;
+  }
+
+  async listar(): Promise<Pedido[]> {
+    const pedidos =  await this.prismaRepository.pedido.findMany();
+    return pedidos;
   }
 }

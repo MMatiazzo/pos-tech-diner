@@ -14,4 +14,9 @@ export class PedidosService implements IPedidosService {
     const pedido = await this.pedidoRepository.criar(produtosIds, status, clienteCpf);
     return pedido;
   }
+
+  async listar(): Promise<Pedido[]> {
+    const pedidos = await this.pedidoRepository.listar();
+    return pedidos;
+  }
 }
