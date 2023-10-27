@@ -32,17 +32,5 @@ export default function () {
     },
   });
 
-  // Atualiza produto
-  const payloadAtualizaProduto = JSON.stringify({
-    "campo": "nome",
-    "valor": "Comida Editada"
-});
-  http.post('http://localhost:3333/produtos/32aae857-f5bd-4305-9877-230a687817ed', payloadAtualizaProduto, 
-  {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
   sleep(1);
 }
