@@ -115,4 +115,4 @@ Cadastro: Tela onde o cliente se cadastra no sistema utilizando nome e email.
 Identificação: Meio utilizado por clientes já cadastrados para se identificarem no sistema.
 
 # Link do Event Storming
-[Event Storming - Miro](https://miro.com/welcomeonboard/RVAzZXk4NUtPbkhMQzhTRmFMeWNPdzhGcjRWS3dRVTg5RUpFNDdVRU5RcFJPZFFlMXJDMHdxS2tOREtncDFyU3wzNDU4NzY0NTY1NzAzMTk1Nzk1fDI=?share_link_id=263274525534)
+[Event Storming - Miro](https://miro.com/app/board/uXjVNexvhM8=/?share_link_id=118973744778)
