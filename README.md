@@ -1,4 +1,119 @@
-#Linguagem Ubíqua
+# Como rodar o projeto
+
+Clonar o projeto no github - https://github.com/MMatiazzo/pos-tech-diner
+Entrar na pasta `pos-tech-diner`
+Executar o comando `sudo docker-compose up --build`
+
+# Endpoints
+
+## End-point: cadastrar-pedido
+### Method: POST
+>```
+>http://localhost:3333/pedidos
+>```
+### Body (**raw**)
+
+```json
+{
+    "produtosIds": ["3a060fc8-d042-48aa-95fd-a1776847f30a"],
+    "status": "recebido",
+    "clienteCpf": "83626507025"
+}
+```
+
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+
+## End-point: listar-pedidos
+### Method: GET
+>```
+>http://localhost:3333/pedidos
+>```
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+# 📁 Collection: Clientes 
+
+
+## End-point: cadastrar-clientes
+### Method: POST
+>```
+>http://localhost:3333/clientes
+>```
+### Body (**raw**)
+
+```json
+{
+	"cpf": "836.265.070-25",
+	"nome": "cliente teste",
+	"email": "email677@email.com"
+}
+```
+
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+
+## End-point: pegar-cliente-por-cpf
+### Method: GET
+>```
+>http://localhost:3333/clientes/83626507025
+>```
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+# 📁 Collection: Produtos 
+
+
+## End-point: cadastrar
+### Method: POST
+>```
+>http://localhost:3333/produtos
+>```
+### Body (**raw**)
+
+```json
+{
+    "nome": "Batata doce de maromba",
+    "categoria": "Sobremesa",
+    "preco": 3,
+    "descricao": "Batata doce nutritiva",
+    "imagens": ["path1", "path2"]
+}
+```
+
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+
+## End-point: remover
+### Method: DELETE
+>```
+>http://localhost:3333/produtos/32aae857-f5bd-4305-9877-230a687817ed
+>```
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+
+## End-point: editar
+### Method: PUT
+>```
+>http://localhost:3333/produtos/32aae857-f5bd-4305-9877-230a687817ed
+>```
+### Body (**raw**)
+
+```json
+{
+    "campo": "nome",
+    "valor": "Comida Editada"
+}
+```
+
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+
+## End-point: buscar
+### Method: GET
+>```
+>http://localhost:3333/produtos/Sobremesa
+>```
+
+# Linguagem Ubíqua
 
 __Realizar Pedido:__
 Cliente: Refere-se a pessoa que faz os pedidos na lanchonete.
