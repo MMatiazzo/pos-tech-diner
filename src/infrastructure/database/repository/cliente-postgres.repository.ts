@@ -10,13 +10,21 @@ export class ClientePostgresRepository implements IClienteRepositoryPort {
     @Inject(PrismaService)
     private prismaRepository: PrismaService
   ){}
+
   async setCliente(cliente: Cliente): Promise<Cliente> {
-    const novoCliente = await this.prismaRepository.cliente.create({data: cliente});
-    return novoCliente;
+    try {
+      const novoCliente = await this.prismaRepository.cliente.create({data: cliente});
+      return novoCliente;
+    } catch (e) {
+      console.error(e);
+    }
   }
-  getCliente(cpf: string): Promise<Cliente> {
-    throw new Error('Method not implemented.');
+
+  async getCliente(cpf: string): Promise<Cliente> {
+    const cliente = await this.prismaRepository.cliente.findUnique({where: { cpf }});
+    return cliente;
   }
+
   validaClienteExistente(cpf: string, email: string): Promise<Cliente[]> {
     throw new Error('Method not implemented.');
   }
