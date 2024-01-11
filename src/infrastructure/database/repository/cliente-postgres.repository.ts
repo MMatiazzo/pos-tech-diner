@@ -10,8 +10,9 @@ export class ClientePostgresRepository implements IClienteRepositoryPort {
     @Inject(PrismaService)
     private prismaRepository: PrismaService
   ){}
-  setCliente(cliente: Cliente): Promise<Cliente> {
-    throw new Error('Method not implemented.');
+  async setCliente(cliente: Cliente): Promise<Cliente> {
+    const novoCliente = await this.prismaRepository.cliente.create({data: cliente});
+    return novoCliente;
   }
   getCliente(cpf: string): Promise<Cliente> {
     throw new Error('Method not implemented.');

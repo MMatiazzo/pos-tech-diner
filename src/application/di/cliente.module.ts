@@ -7,12 +7,14 @@ import { ClientePostgresRepository } from "../../infrastructure/database/reposit
 
 import { IClienteRepositoryPort } from "../../core/domain/cliente/ports/persistence/Icliente-repository.port";
 import { ICadastraClienteUseCase } from "../../core/domain/cliente/usecase/Icadastra-cliente.usecase";
+import { ClienteFactory } from '../factory/cliente.factory';
 
 @Module({
   controllers: [ClienteController],
   imports: [],
   providers: [
     PrismaService,
+    ClienteFactory,
     {
       provide: ICadastraClienteUseCase,
       useClass: CadastrarClienteService

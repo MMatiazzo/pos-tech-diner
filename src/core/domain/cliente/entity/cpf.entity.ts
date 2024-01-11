@@ -1,10 +1,7 @@
 import { BadRequestException } from "@nestjs/common";
 
 export class Cpf {
-
-  private numero: string;
-
-  private static validaCpf(cpf: string) {
+  static validaCpf(cpf: string) {
     let soma = 0;
     if (cpf === undefined) {
       return false;
@@ -41,14 +38,5 @@ export class Cpf {
     }
 
     return true;
-  }
-
-  constructor(numero: string) {
-    if(!Cpf.validaCpf(numero)) throw new BadRequestException('Cpf inválido');
-    this.numero = numero;
-  }
-
-  getValue() {
-    return this.numero;
   }
 }
