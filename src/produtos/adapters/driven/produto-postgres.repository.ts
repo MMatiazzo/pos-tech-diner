@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Cliente } from 'src/clientes/domain/entities/cliente.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Produto } from 'src/produtos/domain/entities/produto.entity';
 import { IProdutoRepository } from 'src/produtos/domain/outboundPorts/Iproduto.repository';
