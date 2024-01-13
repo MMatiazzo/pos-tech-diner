@@ -1,27 +1,27 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Cliente } from "../../../core/domain/cliente/entity/cliente.entity";
-import { IClienteRepositoryPort } from "../../../core/domain/cliente/ports/persistence/Icliente-repository.port";
-import { PrismaService } from "../../../prisma/prisma.service";
+import { Cliente } from "../../../../core/domain/cliente/entity/cliente.entity";
+import { IClienteRepositoryPort } from "../../../../core/domain/cliente/ports/persistence/Icliente-repository.port";
+import { PrismaService } from "../prisma.service";
 
 @Injectable()
 export class ClientePostgresRepository implements IClienteRepositoryPort {
 
   constructor(
     @Inject(PrismaService)
-    private prismaRepository: PrismaService
+    private prisma: PrismaService
   ){}
 
   async setCliente(cliente: Cliente): Promise<Cliente> {
     try {
-      const novoCliente = await this.prismaRepository.cliente.create({data: cliente});
+      const novoCliente = await this.prisma.cliente.create({data: cliente});
       return novoCliente;
     } catch (e) {
-      console.error(e);
+      console.error('error prisma => ', e);
     }
   }
 
   async getCliente(cpf: string): Promise<Cliente> {
-    const cliente = await this.prismaRepository.cliente.findUnique({where: { cpf }});
+    const cliente = await this.prisma.cliente.findUnique({where: { cpf }});
     return cliente;
   }
 

@@ -1,7 +1,8 @@
-import { BadRequestException } from "@nestjs/common";
 
 export class Cpf {
-  static validaCpf(cpf: string) {
+  static validaCpf(cpf: string) { 
+    cpf = cpf.replace(/[^\d]/g, '');
+
     let soma = 0;
     if (cpf === undefined) {
       return false;
