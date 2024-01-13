@@ -3,7 +3,7 @@ import { Provider } from '@nestjs/common/interfaces/modules/provider.interface';
 
 import { CadastrarClienteService } from "../../core/services/cliente/usecase/cadastrar-cliente.service";
 import { PrismaService } from "../../infrastructure/persistence/prisma/prisma.service";
-import { ClientePostgresRepository } from "../../infrastructure/persistence/prisma/repository/cliente-postgres.repository";
+import { ClientePostgresRepository } from "../../infrastructure/persistence/prisma/repository/cliente/cliente-postgres.repository";
 import { ClienteController } from '../api/http-rest/controller/cliente.controller';
 
 import { IIdentificaClienteUseCase } from 'src/core/domain/cliente/usecase/Iidentifica-cliente.usecase';

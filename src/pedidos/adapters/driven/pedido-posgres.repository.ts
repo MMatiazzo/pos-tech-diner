@@ -1,33 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { Pedido } from 'src/pedidos/domain/entities/pedido.entity';
-import { IPedidosRepository } from 'src/pedidos/domain/outboundPorts/Ipedido.repository';
-import { PrismaService } from 'src/prisma/prisma.service';
+// import { Injectable } from '@nestjs/common';
+// import { Pedido } from 'src/pedidos/domain/entities/pedido.entity';
+// import { IPedidosRepository } from 'src/pedidos/domain/outboundPorts/Ipedido.repository';
+// import { PrismaService } from 'src/prisma/prisma.service';
 
-/**
- * This is the implementation of output port, to store things in memory.
- */
-@Injectable()
-export class PeditosPostgres implements IPedidosRepository {
+// /**
+//  * This is the implementation of output port, to store things in memory.
+//  */
+// @Injectable()
+// export class PeditosPostgres implements IPedidosRepository {
 
-  constructor(
-    private prismaRepository: PrismaService
-  ){}
+//   constructor(
+//     private prismaRepository: PrismaService
+//   ){}
 
-  async criar(produtosIds: string[], status: string, clienteCpf?: string): Promise<Pedido> {
+//   async criar(produtosIds: string[], status: string, clienteCpf?: string): Promise<Pedido> {
 
-    const cpf = clienteCpf ? clienteCpf : null;
+//     const cpf = clienteCpf ? clienteCpf : null;
 
-    const pedido = await this.prismaRepository.pedido.create({data: { status, clienteId: cpf }});
+//     const pedido = await this.prismaRepository.pedido.create({data: { status, clienteId: cpf }});
 
-    const pedidosItensPromise = produtosIds.map(pid => this.prismaRepository.pedidoItems.create({data: { pedidoId: pedido.id, produtoId: pid }}));
+//     const pedidosItensPromise = produtosIds.map(pid => this.prismaRepository.pedidoItems.create({data: { pedidoId: pedido.id, produtoId: pid }}));
 
-    Promise.all(pedidosItensPromise);
+//     Promise.all(pedidosItensPromise);
 
-    return pedido;
-  }
+//     return pedido;
+//   }
 
-  async listar(): Promise<Pedido[]> {
-    const pedidos =  await this.prismaRepository.pedido.findMany();
-    return pedidos;
-  }
-}
+//   async listar(): Promise<Pedido[]> {
+//     const pedidos =  await this.prismaRepository.pedido.findMany();
+//     return pedidos;
+//   }
+// }
