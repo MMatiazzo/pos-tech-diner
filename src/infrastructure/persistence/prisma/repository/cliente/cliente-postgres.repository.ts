@@ -9,11 +9,11 @@ export class ClientePostgresRepository implements IClienteRepositoryPort {
   constructor(
     @Inject(PrismaService)
     private prisma: PrismaService
-  ){}
+  ) { }
 
   async setCliente(cliente: Cliente): Promise<Cliente> {
     try {
-      const novoCliente = await this.prisma.cliente.create({data: cliente});
+      const novoCliente = await this.prisma.cliente.create({ data: cliente });
       return novoCliente;
     } catch (e) {
       console.error('error prisma => ', e);
@@ -21,8 +21,12 @@ export class ClientePostgresRepository implements IClienteRepositoryPort {
   }
 
   async getCliente(cpf: string): Promise<Cliente> {
-    const cliente = await this.prisma.cliente.findUnique({where: { cpf }});
-    return cliente;
+    try {
+      const cliente = await this.prisma.cliente.findUnique({ where: { cpf } });
+      return cliente;
+    } catch (e) {
+      console.error('error prisma => ', e);
+    }
   }
 
   validaClienteExistente(cpf: string, email: string): Promise<Cliente[]> {

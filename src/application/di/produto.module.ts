@@ -5,7 +5,7 @@ import { PrismaService } from "../../infrastructure/persistence/prisma/prisma.se
 
 import { IProdutoRepositoryPort } from 'src/core/domain/produtos/port/persistence/Iproduto-repository.port';
 import { ICadastraProdutoUseCase } from 'src/core/domain/produtos/usecase/Icadastra-produto.usecase';
-import { CadastrarProdutoService } from 'src/core/services/pedidos/usecase/cadastrar-produto.service';
+import { CadastrarProdutoService } from 'src/core/services/produto/usecase/cadastrar-produto.service';
 import { ProdutoPostgresRepository } from 'src/infrastructure/persistence/prisma/repository/produto/produto-postgres.repository';
 import { ProdutoController } from '../api/http-rest/controller/produto.controller';
 
