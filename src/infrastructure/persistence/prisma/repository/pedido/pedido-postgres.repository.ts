@@ -25,4 +25,21 @@ export class PedidoPostgresRepository implements IPedidosRepositoryPort {
     const pedidos = await this.prisma.pedido.findMany();
     return pedidos;
   }
+
+  async getPedidosEmAndamento(): Promise<Pedido[]> {
+    const pedidos = await this.prisma.pedido.findMany({
+      where: {
+        status: {
+          not: 'finalizado' // trocar isso por um macro ou enum
+        }
+      }
+    });
+
+    return pedidos;
+  }
+
+  async getProdutosPorPedidos(ids: string[]): Promise<any> {
+    const produtos = await this.prisma.pedidoItems.findMany({ where: { pedidoId: { in: ids } } })
+    return produtos;
+  }
 } 
