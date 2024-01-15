@@ -34,7 +34,11 @@ export class ProdutoPostgresRepository implements IProdutoRepositoryPort {
     });
     return produtoDeletado;
   }
-  buscar(categoria: string): Promise<Produto[]> {
-    throw new Error('Method not implemented.');
+  async buscar(categoria: string): Promise<Produto[]> {
+    const produtos = await this.prisma.produtos.findMany({
+      where: { categoria }
+    });
+
+    return produtos;
   }
 } 

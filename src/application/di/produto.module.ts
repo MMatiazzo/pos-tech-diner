@@ -12,6 +12,10 @@ import { DeletarProdutoService } from 'src/core/services/produto/usecase/deletar
 import { IDeletarProdutoUseCase } from 'src/core/domain/produtos/usecase/Ideletar-produto.usecase';
 import { IPedidosRepositoryPort } from 'src/core/domain/pedidos/port/persistence/Ipedido-repository.port';
 import { PedidoPostgresRepository } from 'src/infrastructure/persistence/prisma/repository/pedido/pedido-postgres.repository';
+import { IEditarProdutoUseCase } from 'src/core/domain/produtos/usecase/Ieditar-produto.usecase';
+import { EditarProdutoService } from 'src/core/services/produto/usecase/editar-produto.service';
+import { IBuscarProdutoPorCategoriaUseCase } from 'src/core/domain/produtos/usecase/Ibuscar-produto-por-categoria.usecase';
+import { BuscarProdutoPorCategoria } from 'src/core/services/produto/usecase/buscar-produto-por-categoria.service';
 
 
 const persistenceProviders: Provider[] = [
@@ -39,6 +43,16 @@ const useCaseProviders: Provider[] = [
     useFactory: (produtoRepository: IProdutoRepositoryPort, pedidoRepository: IPedidosRepositoryPort) => new DeletarProdutoService(produtoRepository, pedidoRepository),
     inject: [IProdutoRepositoryPort, IPedidosRepositoryPort]
   },
+  {
+    provide: IEditarProdutoUseCase,
+    useFactory: (repository: IProdutoRepositoryPort) => new EditarProdutoService(repository),
+    inject: [IProdutoRepositoryPort]
+  },
+  {
+    provide: IBuscarProdutoPorCategoriaUseCase,
+    useFactory: (repository: IProdutoRepositoryPort) => new BuscarProdutoPorCategoria(repository),
+    inject: [IProdutoRepositoryPort]
+  }
 ]
 
 @Module({
