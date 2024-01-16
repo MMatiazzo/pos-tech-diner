@@ -1,4 +1,4 @@
-import { Produto } from "src/produtos/domain/entities/produto.entity";
+import { Produto } from "../entity/produto.entity";
 import { IBuscarProdutoPorCategoriaPort } from "../port/usecase/Ibuscar-produto-por-categoria.port";
 
 export interface IBuscarProdutoPorCategoriaUseCase {

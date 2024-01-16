@@ -1,4 +1,5 @@
-import { Produto } from "src/produtos/domain/entities/produto.entity";
+
+import { Produto } from "../entity/produto.entity";
 import { IEditarProdutoPort } from "../port/usecase/Ieditar-produto.port";
 
 export interface IEditarProdutoUseCase {

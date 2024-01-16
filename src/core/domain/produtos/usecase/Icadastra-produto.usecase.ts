@@ -1,4 +1,5 @@
-import { Produto } from "src/produtos/domain/entities/produto.entity";
+
+import { Produto } from "../entity/produto.entity";
 import { ICadastraProdutoPort } from "../port/usecase/Icadastra-produto.port";
 
 export interface ICadastraProdutoUseCase {

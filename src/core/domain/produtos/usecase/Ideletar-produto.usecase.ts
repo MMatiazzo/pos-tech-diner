@@ -1,4 +1,5 @@
-import { Produto } from "src/produtos/domain/entities/produto.entity";
+
+import { Produto } from "../entity/produto.entity";
 import { IDeletarProdutoPort } from "../port/usecase/Ideletar-produto.port";
 
 export interface IDeletarProdutoUseCase {
