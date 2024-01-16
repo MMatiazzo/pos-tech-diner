@@ -2,6 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Cliente } from "../../../../../core/domain/cliente/entity/cliente.entity";
 import { IClienteRepositoryPort } from "../../../../../core/domain/cliente/ports/persistence/Icliente-repository.port";
 import { PrismaService } from "../../prisma.service";
+import { Prisma } from '@prisma/client';
+
+type ClienteWhereUniqueInput = Prisma.ClienteWhereUniqueInput;
 
 @Injectable()
 export class ClientePostgresRepository implements IClienteRepositoryPort {
@@ -20,10 +23,20 @@ export class ClientePostgresRepository implements IClienteRepositoryPort {
     }
   }
 
-  async getCliente(cpf: string): Promise<Cliente> {
+  async getCliente(field: string): Promise<Cliente> {
     try {
-      const cliente = await this.prisma.cliente.findUnique({ where: { cpf } });
-      return cliente;
+      const cliente = await this.prisma.cliente.findMany({
+        where: {
+          OR: [
+            {
+              email: field
+            },
+            { cpf: field },
+          ]
+        },
+      });
+
+      return cliente[0];
     } catch (e) {
       console.error('error prisma => ', e);
     }

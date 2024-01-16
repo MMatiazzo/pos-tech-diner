@@ -8,7 +8,7 @@ export class IdentificaClienteService implements IIdentificaClienteUseCase {
   constructor(
     @Inject(IClienteRepositoryPort)
     private clienteRepository: IClienteRepositoryPort
-  ) {}
+  ) { }
 
   async execute({ cpf }: IIdentificaClientePort): Promise<any> {
     const cliente = await this.clienteRepository.getCliente(cpf);

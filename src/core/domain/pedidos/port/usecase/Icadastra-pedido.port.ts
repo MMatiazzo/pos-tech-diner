@@ -1,6 +1,6 @@
 
 export interface ICadastraPedidoPort {
   produtosIds: string[];
-  status: string;
-  clienteCpf?: string;
+  cpf?: string;
+  email?: string;
 }

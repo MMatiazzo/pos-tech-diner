@@ -13,6 +13,8 @@ import { PedidoPostgresRepository } from 'src/infrastructure/persistence/prisma/
 import { PedidoController } from '../api/http-rest/controller/pedido.controller';
 import { IListaPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ilista-pedido.usecase';
 import { ListaPedidoService } from 'src/core/services/pedido/usecase/listar-pedido.service';
+import { IGetPedidoPagamentoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iget-pagamento-pedido-status.usecase';
+import { GetPagamentoPedidoStatusService } from 'src/core/services/pedido/usecase/get-pagamento-pedido-status.service';
 
 
 const persistenceProviders: Provider[] = [
@@ -35,7 +37,11 @@ const useCaseProviders: Provider[] = [
     useFactory: (pedidoRepository: IPedidosRepositoryPort, clienteRepository: IClienteRepositoryPort) => new CadastrarPedidoService(pedidoRepository, clienteRepository),
     inject: [IPedidosRepositoryPort, IClienteRepositoryPort]
   },
-
+  {
+    provide: IGetPedidoPagamentoStatusUseCase,
+    useFactory: (repository: IPedidosRepositoryPort) => new GetPagamentoPedidoStatusService(repository),
+    inject: [IPedidosRepositoryPort]
+  },
   {
     provide: IListaPedidoUseCase,
     useFactory: (pedidoRepository: IPedidosRepositoryPort) => new ListaPedidoService(pedidoRepository),

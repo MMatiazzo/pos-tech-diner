@@ -1,4 +1,4 @@
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CadastrarPedidoDto {
   @IsArray()
@@ -7,9 +7,11 @@ export class CadastrarPedidoDto {
 
   @IsString()
   @IsNotEmpty()
-  status: string;
+  @IsOptional()
+  cpf?: string;
 
   @IsString()
   @IsNotEmpty()
-  clienteCpf: string;
+  @IsOptional()
+  email?: string;
 }

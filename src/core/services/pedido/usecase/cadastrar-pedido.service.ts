@@ -1,6 +1,6 @@
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { IClienteRepositoryPort } from "src/core/domain/cliente/ports/persistence/Icliente-repository.port";
-import { Pedido } from "src/core/domain/pedidos/entity/pedido.entity";
+import { CardinalDirections, Pedido } from "src/core/domain/pedidos/entity/pedido.entity";
 import { IPedidosRepositoryPort } from "src/core/domain/pedidos/port/persistence/Ipedido-repository.port";
 import { ICadastraPedidoPort } from "src/core/domain/pedidos/port/usecase/Icadastra-pedido.port";
 import { ICadastrarPedidoUseCase } from "src/core/domain/pedidos/usecase/Icadastra-pedido.usecase";
@@ -15,15 +15,18 @@ export class CadastrarPedidoService implements ICadastrarPedidoUseCase {
     private clienteRepository: IClienteRepositoryPort
   ) { }
 
-  async execute(payload: ICadastraPedidoPort): Promise<Pedido> {
-    const cliente = await this.clienteRepository.getCliente(payload.clienteCpf);
+  async execute({ cpf, email, produtosIds }: ICadastraPedidoPort): Promise<any> {
+    const cliente = !cpf && !email ? null : await this.clienteRepository.getCliente(cpf || email);
 
-    if (!cliente) {
-      throw new BadRequestException('Cliente not found');
-    }
+    const pedidoEntity = Pedido.new({
+      cpf: cliente?.cpf || null,
+      email: cliente?.email || null,
+      status: CardinalDirections.AGUARDANDO_PAGAMENTO,
+      produtosIds
+    });
 
-    const pedidoEntity = Pedido.new({ cpf: cliente.cpf, status: payload.status });
-    const produto = await this.pedidoRepository.criar(payload.produtosIds, pedidoEntity);
+    const produto = await this.pedidoRepository.criar(produtosIds, pedidoEntity);
+
     return produto;
   }
 }
