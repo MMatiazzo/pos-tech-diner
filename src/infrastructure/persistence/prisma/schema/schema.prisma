@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Cliente {
-  cpf    String   @id
+  cpf    String?  @unique
   nome   String
-  email  String   @unique
+  email  String   @id
   Pedido Pedido[]
 
   @@map("clientes")
@@ -48,7 +48,7 @@ model Pedido {
   PedidoItems PedidoItems[]
 
   clienteId String?
-  clientes  Cliente? @relation(fields: [clienteId], references: [cpf])
+  clientes  Cliente? @relation(fields: [clienteId], references: [email])
 
   @@map("pedidos")
 }

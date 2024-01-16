@@ -1,4 +1,5 @@
-import { Cliente } from "@prisma/client";
+
+import { Cliente } from "../entity/cliente.entity";
 import { ICadastraClientePort } from "../ports/usecase/Icadastra-cliente.port";
 
 export interface ICadastraClienteUseCase {

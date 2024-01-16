@@ -1,6 +1,6 @@
 
 export type CriaClienteEntityPayload = {
-  cpf: string,
+  cpf?: string,
   nome: string,
   email: string,
 };

@@ -1,9 +1,9 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class RegistrarClienteDto {
   @IsString()
-  @IsNotEmpty()
-  cpf: string;
+  @IsOptional()
+  cpf?: string;
 
   @IsString()
   @IsNotEmpty()

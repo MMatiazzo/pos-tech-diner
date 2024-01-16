@@ -1,6 +1,4 @@
-// import { Cliente } from "../../entity/cliente.entity";
-
-import { Cliente } from "@prisma/client";
+import { Cliente } from "../../entity/cliente.entity";
 
 /**
  * Interface para Cliente Repository

@@ -1,6 +1,6 @@
 
 export interface ICadastraClientePort {
-  cpf: string;
+  cpf?: string;
   nome: string;
   email: string;
 }

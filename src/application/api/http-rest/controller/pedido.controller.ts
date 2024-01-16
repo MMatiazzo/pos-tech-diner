@@ -13,9 +13,7 @@ export class PedidoController {
     @Inject(IListaPedidoUseCase)
     private listarPedidoService: IListaPedidoUseCase,
   ) { }
-  produtosIds: string[];
-  status: string;
-  cpf?: string;
+
   @Post()
   async registrar(@Body() payload: CadastrarPedidoDto): Promise<Pedido> {
     const pedido = await this.cadastrarPedidoService.execute(payload);
