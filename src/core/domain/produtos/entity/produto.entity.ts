@@ -2,7 +2,7 @@ import { CriaProdutoEntityPayload } from "./type/cria-produto-entity.payload"
 
 export class Produto {
   nome: string
-  categoria:  string
+  categoria: string;
   preco: number
   descricao: string
   imagens: string[]

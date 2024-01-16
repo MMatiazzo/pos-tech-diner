@@ -4,7 +4,7 @@ import { ICadastrarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Icadast
 import { IListaPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ilista-pedido.usecase';
 import { CadastrarPedidoDto } from '../dtos/cadastrarPedido.dto';
 
-@Controller('pedidosTeste')
+@Controller('pedido')
 export class PedidoController {
   constructor(
     @Inject(ICadastrarPedidoUseCase)

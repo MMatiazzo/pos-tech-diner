@@ -4,7 +4,7 @@ import { IIdentificaClienteUseCase } from 'src/core/domain/cliente/usecase/Iiden
 import { ICadastraClienteUseCase } from "../../../../core/domain/cliente/usecase/Icadastra-cliente.usecase";
 import { RegistrarClienteDto } from '../dtos/registrarCliente.dto';
 
-@Controller('clientesTeste')
+@Controller('cliente')
 export class ClienteController {
   constructor(
     @Inject(ICadastraClienteUseCase)
@@ -12,18 +12,18 @@ export class ClienteController {
 
     @Inject(IIdentificaClienteUseCase)
     private identifiarClienteService: IIdentificaClienteUseCase,
-    ) {}
+  ) { }
 
   @Post()
-  async registrar(@Body() {cpf, nome, email}: RegistrarClienteDto ): Promise<any> {
-    const cliente = await this.cadastraClienteService.execute({cpf, nome, email});
+  async registrar(@Body() { cpf, nome, email }: RegistrarClienteDto): Promise<any> {
+    const cliente = await this.cadastraClienteService.execute({ cpf, nome, email });
     return cliente;
   }
-  
+
   @Get(':cpf')
   async identificar(@Param() payload: IIdentificaClientePort): Promise<any> {
-    const cliente =  await this.identifiarClienteService.execute(payload);
-    if(!cliente) {
+    const cliente = await this.identifiarClienteService.execute(payload);
+    if (!cliente) {
       throw new NotFoundException;
     }
     return cliente;

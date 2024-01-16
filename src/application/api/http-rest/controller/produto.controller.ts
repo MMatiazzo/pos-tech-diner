@@ -6,8 +6,9 @@ import { IEditarProdutoUseCase } from 'src/core/domain/produtos/usecase/Ieditar-
 import { CadastrarProdutoDto } from '../dtos/cadastrarProduto.dto';
 import { EditarPedidoDto } from '../dtos/editarProduto.dto';
 import { IBuscarProdutoPorCategoriaUseCase } from 'src/core/domain/produtos/usecase/Ibuscar-produto-por-categoria.usecase';
+import { ListarProdutoDto } from '../dtos/produtoDto/listarProdutoDto';
 
-@Controller('produtoTeste')
+@Controller('produto')
 export class ProdutoController {
   constructor(
     @Inject(ICadastraProdutoUseCase)
@@ -24,14 +25,14 @@ export class ProdutoController {
   ) { }
 
   @Post()
-  async cadastrar(@Body() payload: CadastrarProdutoDto): Promise<any> {
-    const produto = this.cadastraProdutoService.execute(payload);
+  async cadastrar(@Body() payload: CadastrarProdutoDto): Promise<Produto> {
+    const produto = await this.cadastraProdutoService.execute(payload);
     return produto;
   }
 
   @Get(':categoria')
-  async buscarPorCategoria(@Param() { categoria }): Promise<Produto[]> {
-    const produtos = this.buscarProdutoPorCategoriaSerice.execute({ categoria });
+  async buscarPorCategoria(@Param() { categoria }: ListarProdutoDto): Promise<Produto[]> {
+    const produtos = await this.buscarProdutoPorCategoriaSerice.execute({ categoria });
     return produtos;
   }
 

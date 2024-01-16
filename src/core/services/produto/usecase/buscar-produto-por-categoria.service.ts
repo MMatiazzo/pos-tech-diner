@@ -12,8 +12,8 @@ export class BuscarProdutoPorCategoria implements IBuscarProdutoPorCategoriaUseC
     private produtoRepository: IProdutoRepositoryPort
   ) { }
 
-  async execute(payload: IBuscarProdutoPorCategoriaPort): Promise<Produto[]> {
-    const produto = await this.produtoRepository.buscar(payload.categoria);
+  async execute({ categoria }: IBuscarProdutoPorCategoriaPort): Promise<Produto[]> {
+    const produto = await this.produtoRepository.buscar(categoria);
     return produto;
   }
 }
