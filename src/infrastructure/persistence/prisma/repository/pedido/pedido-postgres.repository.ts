@@ -26,6 +26,16 @@ export class PedidoPostgresRepository implements IPedidosRepositoryPort {
     return pedidos;
   }
 
+  async atualizarPedidoStatus(id: string, newStatus: string): Promise<Pedido> {
+    const pedido = await this.prisma.pedido.update({
+      where: { id },
+      data: {
+        status: newStatus,
+      },
+    });
+    return pedido;
+  }
+
   async getProdutoPorId(id: string): Promise<Pedido> {
     const pedido = await this.prisma.pedido.findUnique({ where: { id } });
     return pedido;

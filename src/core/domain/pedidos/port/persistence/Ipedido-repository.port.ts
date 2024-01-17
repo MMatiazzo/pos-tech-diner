@@ -6,6 +6,7 @@ export interface IPedidosRepositoryPort {
   getPedidosEmAndamento(): Promise<any[]>;
   getProdutosPorPedidos(ids: string[]): Promise<any>;
   getProdutoPorId(id: string): Promise<Pedido>;
+  atualizarPedidoStatus(id: string, status: string): Promise<Pedido>;
 }
 
 export const IPedidosRepositoryPort = Symbol('IPedidosRepositoryPort');

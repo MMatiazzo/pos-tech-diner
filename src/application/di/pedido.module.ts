@@ -15,6 +15,8 @@ import { IListaPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ilista-pedi
 import { ListaPedidoService } from 'src/core/services/pedido/usecase/listar-pedido.service';
 import { IGetPedidoPagamentoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iget-pagamento-pedido-status.usecase';
 import { GetPagamentoPedidoStatusService } from 'src/core/services/pedido/usecase/get-pagamento-pedido-status.service';
+import { IAtualizarPedidoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iatuliza-pedido-status.usecase';
+import { AtualizarPedidoStatusService } from 'src/core/services/pedido/usecase/atualizar-pedido-status.service';
 
 
 const persistenceProviders: Provider[] = [
@@ -45,6 +47,11 @@ const useCaseProviders: Provider[] = [
   {
     provide: IListaPedidoUseCase,
     useFactory: (pedidoRepository: IPedidosRepositoryPort) => new ListaPedidoService(pedidoRepository),
+    inject: [IPedidosRepositoryPort]
+  },
+  {
+    provide: IAtualizarPedidoStatusUseCase,
+    useFactory: (pedidoRepository: IPedidosRepositoryPort) => new AtualizarPedidoStatusService(pedidoRepository),
     inject: [IPedidosRepositoryPort]
   },
 ]
