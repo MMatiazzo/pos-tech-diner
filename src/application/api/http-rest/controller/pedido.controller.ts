@@ -4,6 +4,7 @@ import { ICadastrarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Icadast
 import { IListaPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ilista-pedido.usecase';
 import { CadastrarPedidoDto } from '../dtos/cadastrarPedido.dto';
 import { IGetPedidoPagamentoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iget-pagamento-pedido-status.usecase';
+import { PedidoPresenterAdapter } from '../presenter/cliente.adapter';
 
 @Controller('pedido')
 export class PedidoController {
@@ -27,7 +28,7 @@ export class PedidoController {
   @Get(':id')
   async getPagamentoPedidoStatus(@Param() { id }) {
     const pago = await this.getPedidoPagamentoStatusService.execute({ pedidoId: id });
-    return { pagamentoEfetuado: pago };
+    return PedidoPresenterAdapter.adaptPagamentoStatus(pago);
   }
 
   @Get()
