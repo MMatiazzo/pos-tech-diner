@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -39,11 +40,16 @@ model PedidoItems {
 
   produtoId String
   produtos  Produtos @relation(fields: [produtoId], references: [id])
+
+  @@map("pedidosItens")
 }
 
 model Pedido {
   id     String @id @default(uuid())
   status String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   PedidoItems PedidoItems[]
 

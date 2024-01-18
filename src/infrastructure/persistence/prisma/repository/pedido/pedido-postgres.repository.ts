@@ -12,7 +12,7 @@ export class PedidoPostgresRepository implements IPedidosRepositoryPort {
   ) { }
 
   async criar(produtosIds: string[], payload: Pedido): Promise<Pedido> {
-    const pedido = await this.prisma.pedido.create({ data: { status: payload.status, clienteId: payload.cpf } });
+    const pedido = await this.prisma.pedido.create({ data: { status: payload.status, clienteId: payload.email } });
 
     const pedidosItensPromise = produtosIds.map(pid => this.prisma.pedidoItems.create({ data: { pedidoId: pedido.id, produtoId: pid } }));
 
@@ -22,8 +22,23 @@ export class PedidoPostgresRepository implements IPedidosRepositoryPort {
   }
 
   async listar(): Promise<Pedido[]> {
-    const pedidos = await this.prisma.pedido.findMany();
-    return pedidos;
+
+    const testePedido = await this.prisma.$queryRaw`
+    SELECT * FROM pedidos p
+    -- LEFT JOIN pedidosItens pi ON pi.pedidoId = p.id
+    -- LEFT JOIN produtos pr ON p.produtoId = pr.id
+    WHERE status <> 'Finalizado'
+    ORDER BY
+      CASE 
+        WHEN status = 'Pronto' THEN 1
+        WHEN status = 'Em_Preparacao' THEN 2
+        WHEN status = 'Recebido' THEN 3
+        ELSE 4
+      END; 
+    `;
+
+
+    return testePedido as Pedido[];
   }
 
   async atualizarPedidoStatus(id: string, newStatus: string): Promise<Pedido> {

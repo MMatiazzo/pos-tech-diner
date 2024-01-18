@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "clientes" (
-    "cpf" TEXT NOT NULL,
+    "cpf" TEXT,
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
 
@@ -32,6 +32,8 @@ CREATE TABLE "PedidoItems" (
 CREATE TABLE "pedidos" (
     "id" TEXT NOT NULL,
     "status" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "clienteId" TEXT,
 
     CONSTRAINT "pedidos_pkey" PRIMARY KEY ("id")
