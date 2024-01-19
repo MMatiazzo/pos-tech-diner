@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { IClienteRepositoryPort } from "src/core/domain/cliente/ports/persistence/Icliente-repository.port";
 import { CardinalDirections, Pedido } from "src/core/domain/pedidos/entity/pedido.entity";
 import { IPedidosRepositoryPort } from "src/core/domain/pedidos/port/persistence/Ipedido-repository.port";
@@ -17,6 +17,10 @@ export class CadastrarPedidoService implements ICadastrarPedidoUseCase {
 
   async execute({ cpf, email, produtosIds }: ICadastraPedidoPort): Promise<any> {
     const cliente = !cpf && !email ? null : await this.clienteRepository.getCliente(cpf || email);
+
+    if (cliente === undefined) {
+      throw new BadRequestException('Cliente não cadastrado no sistema');
+    }
 
     const pedidoEntity = Pedido.new({
       cpf: cliente?.cpf || null,

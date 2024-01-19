@@ -28,17 +28,37 @@ export class PedidoPostgresRepository implements IPedidosRepositoryPort {
 
   async listar(): Promise<Pedido[]> {
     const testePedido = await this.prisma.$queryRaw`
-    SELECT * FROM pedidos p
-    -- LEFT JOIN pedidosItens pi ON pi.pedidoId = p.id
-    -- LEFT JOIN produtos pr ON p.produtoId = pr.id
-    WHERE status <> 'Finalizado'
+    SELECT
+      p.id AS "pedidoId",
+      p.status,
+      p."clienteId",
+      p."createdAt",
+      JSONB_AGG(
+        JSONB_BUILD_OBJECT(
+          'produtoId', pr.id,
+          'nome', pr.nome,
+          'categoria', pr.categoria,
+          'preco', pr.preco,
+          'descricao', pr.descricao,
+          'imagens', pr.imagens
+        )
+      ) AS produtos
+    FROM
+      pedidos p
+      LEFT JOIN "pedidosItens" pi ON p.id = pi."pedidoId"
+      RIGHT JOIN produtos pr ON pi."produtoId" = pr.id
+    WHERE
+      p.status <> 'Finalizado'
+    GROUP BY
+      p.id
     ORDER BY
       CASE 
-        WHEN status = 'Pronto' THEN 1
-        WHEN status = 'Em_Preparacao' THEN 2
-        WHEN status = 'Recebido' THEN 3
+        WHEN p.status = 'Pronto' THEN 1
+        WHEN p.status = 'Em_Preparacao' THEN 2
+        WHEN p.status = 'Recebido' THEN 3
         ELSE 4
-      END; 
+      END,
+      p."createdAt" ASC;
     `;
 
     return testePedido as Pedido[];
