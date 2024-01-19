@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { Provider } from '@nestjs/common/interfaces/modules/provider.interface';
 
-import { PrismaService } from "../../infrastructure/persistence/prisma/prisma.service";
+import { PrismaService } from '../../infrastructure/persistence/prisma/prisma.service';
 
 import { IPedidosRepositoryPort } from 'src/core/domain/pedidos/port/persistence/Ipedido-repository.port';
 import { ICadastrarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Icadastra-pedido.usecase';
@@ -17,51 +17,65 @@ import { IGetPedidoPagamentoStatusUseCase } from 'src/core/domain/pedidos/usecas
 import { GetPagamentoPedidoStatusService } from 'src/core/services/pedido/usecase/get-pagamento-pedido-status.service';
 import { IAtualizarPedidoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iatuliza-pedido-status.usecase';
 import { AtualizarPedidoStatusService } from 'src/core/services/pedido/usecase/atualizar-pedido-status.service';
-
+import { IPagarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ipagar-pedido.usecase';
+import { PagarPedidoService } from 'src/core/services/pedido/usecase/pagar-pedido.service';
+import { PagamentoMock } from 'src/infrastructure/framework/payment-gateway/payment-mock/pagamento-mock';
 
 const persistenceProviders: Provider[] = [
   PrismaService,
   {
     provide: IPedidosRepositoryPort,
     useFactory: (prisma: PrismaService) => new PedidoPostgresRepository(prisma),
-    inject: [PrismaService]
+    inject: [PrismaService],
   },
   {
     provide: IClienteRepositoryPort,
-    useFactory: (prisma: PrismaService) => new ClientePostgresRepository(prisma),
-    inject: [PrismaService]
-  }
-]
+    useFactory: (prisma: PrismaService) =>
+      new ClientePostgresRepository(prisma),
+    inject: [PrismaService],
+  },
+];
 
 const useCaseProviders: Provider[] = [
   {
     provide: ICadastrarPedidoUseCase,
-    useFactory: (pedidoRepository: IPedidosRepositoryPort, clienteRepository: IClienteRepositoryPort) => new CadastrarPedidoService(pedidoRepository, clienteRepository),
-    inject: [IPedidosRepositoryPort, IClienteRepositoryPort]
+    useFactory: (
+      pedidoRepository: IPedidosRepositoryPort,
+      clienteRepository: IClienteRepositoryPort,
+    ) => new CadastrarPedidoService(pedidoRepository, clienteRepository),
+    inject: [IPedidosRepositoryPort, IClienteRepositoryPort],
   },
   {
     provide: IGetPedidoPagamentoStatusUseCase,
-    useFactory: (repository: IPedidosRepositoryPort) => new GetPagamentoPedidoStatusService(repository),
-    inject: [IPedidosRepositoryPort]
+    useFactory: (repository: IPedidosRepositoryPort) =>
+      new GetPagamentoPedidoStatusService(repository),
+    inject: [IPedidosRepositoryPort],
   },
   {
     provide: IListaPedidoUseCase,
-    useFactory: (pedidoRepository: IPedidosRepositoryPort) => new ListaPedidoService(pedidoRepository),
-    inject: [IPedidosRepositoryPort]
+    useFactory: (pedidoRepository: IPedidosRepositoryPort) =>
+      new ListaPedidoService(pedidoRepository),
+    inject: [IPedidosRepositoryPort],
   },
   {
     provide: IAtualizarPedidoStatusUseCase,
-    useFactory: (pedidoRepository: IPedidosRepositoryPort) => new AtualizarPedidoStatusService(pedidoRepository),
-    inject: [IPedidosRepositoryPort]
+    useFactory: (pedidoRepository: IPedidosRepositoryPort) =>
+      new AtualizarPedidoStatusService(pedidoRepository),
+    inject: [IPedidosRepositoryPort],
   },
-]
+  {
+    provide: IPagarPedidoUseCase,
+    useFactory: (pedidoRepository: IPedidosRepositoryPort) => {
+      const pagamentoMock = new PagamentoMock();
+      return new PagarPedidoService(pedidoRepository, pagamentoMock);
+    },
+    inject: [IPedidosRepositoryPort],
+  },
+];
 
 @Module({
   controllers: [PedidoController],
   imports: [],
-  providers: [
-    ...persistenceProviders,
-    ...useCaseProviders,
-  ],
+  providers: [...persistenceProviders, ...useCaseProviders],
 })
 export class PedidoModule { }

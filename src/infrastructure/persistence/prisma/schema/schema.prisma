@@ -49,7 +49,6 @@ model Pedido {
   status String
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   PedidoItems PedidoItems[]
 

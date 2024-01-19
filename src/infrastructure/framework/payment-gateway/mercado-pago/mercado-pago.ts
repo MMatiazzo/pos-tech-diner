@@ -1,9 +1,13 @@
 import { IPaymentGatewayPort } from 'src/core/domain/pedidos/port/framework/payment/Ipayment-gateway.port';
 import { IPaymentGateway } from '../Ipayment.gateway';
 import axios from 'axios';
+import { IPaymentMockGatewayPort } from 'src/core/domain/pedidos/port/framework/payment/IPayment-mock-gateway.port';
 
 export class MercadoPago implements IPaymentGateway {
-  public async createQrCode(data: IPaymentGatewayPort): Promise<any> {
+  makePayment(data: IPaymentMockGatewayPort): Promise<any> {
+    throw new Error('Method not implemented.');
+  }
+  public async createQrCode(data: IPaymentGatewayPort): Promise<void> {
     const url = `${process.env.MERCADO_PAGO_URL}${process.env.MERCADO_PAGO_USER_ID}/pos/${data.externalPosId}/qrs`;
 
     const body = {
@@ -31,6 +35,7 @@ export class MercadoPago implements IPaymentGateway {
 
     const response = await axios.post(url, JSON.stringify(body));
     console.log(response.data);
+
     return response.data;
   }
 }
