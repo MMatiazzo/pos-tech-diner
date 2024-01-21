@@ -1,4 +1,4 @@
-import { BadGatewayException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CardinalDirections } from 'src/core/domain/pedidos/entity/pedido.entity';
 import { IPedidosRepositoryPort } from 'src/core/domain/pedidos/port/persistence/Ipedido-repository.port';
 import { IPagarPedidoPort } from 'src/core/domain/pedidos/port/usecase/Ipagar-pedido.port';
@@ -19,11 +19,11 @@ export class PagarPedidoService implements IPagarPedidoUseCase {
     const pedidoExiste = await this.pedidoRepository.getPedidoPorId(pedidoId);
 
     if (!pedidoExiste) {
-      throw new BadGatewayException('Pedido não existe');
+      throw new BadRequestException('Pedido não existe');
     }
 
     if (pedidoExiste.status !== CardinalDirections.AGUARDANDO_PAGAMENTO) {
-      throw new BadGatewayException('Pedido já processado');
+      throw new BadRequestException('Pedido já processado');
     }
 
     await this.pagamentoMock.makePayment({ pedidoId, cartao });
