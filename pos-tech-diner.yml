@@ -3,50 +3,46 @@ kind: Secret
 metadata:
   name: pos-tech-secret
 data:
-  DATABASE_URL: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBvc3RncmVzX3Bhc3N3b3JkQDAuMC4wLjA6NTQzMi9wb3MtdGVjaC1kYj9zY2hlbWE9cHVibGlj
+  DATABASE_URL: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBvc3RncmVzX3Bhc3N3b3JkQHBvc3RncmVzLXNlcnZpY2U6NTQzMi9wb3MtdGVjaC1kYj9zY2hlbWE9cHVibGlj
 
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pos-tech
+  labels:
+    app: pos-tech
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pos-tech
+    spec:
+      containers:
+        - name: pos-tech-image
+          image: alexandrefukano/pos-tech-diner:3.0
+          ports:
+            - containerPort: 3333
+          envFrom:
+            - secretRef:
+                name: pos-tech-secret
+  selector:
+    matchLabels:
+      app: pos-tech
 
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: pos-tech-service
 spec:
   selector:
-    app: proxy  # Update this selector based on your PostgreSQL labels
+    app: pos-tech # Update this selector based on your PostgreSQL labels
   ports:
     - protocol: TCP
       port: 3333
       targetPort: 3333
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: pos-tech-deployment
-  labels:
-    app: pos-tech-deployment
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: pos-tech-pod
-    spec:
-      containers:
-        - name: pos-tech-image
-          image: alexandrefukano/pos-tech-diner:3.0
-          ports:
-          - containerPort: 3333
-          envFrom:
-          - secretRef:
-              name: pos-tech-secret
-  selector:
-    matchLabels:
-      app: pos-tech-pod
-    
-
 # apiVersion: autoscaling/v2
 # kind: HorizontalPodAutoscaler
 # metadata:

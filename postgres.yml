@@ -8,43 +8,36 @@ data:
   POSTGRES_PASSWORD: cG9zdGdyZXNfcGFzc3dvcmQ=
 
 ---
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: database-service
-spec:
-  selector:
-    app: proxy  # Update this selector based on your PostgreSQL labels
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 5432
-  type: NodePort  # Use ClusterIP for internal communication
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: database-deployment
-  labels:
-    app: database-deployment
+  name: postgres
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: database-pod
+        app: postgres
     spec:
       containers:
-        - name: database-image
+        - name: postgres
           image: postgres
           ports:
-            - containerPort: 5432
+            - containerPort: 80
           envFrom:
-          - secretRef:
-              name: database-secret
+            - secretRef:
+                name: database-secret
   selector:
     matchLabels:
-      app: database-pod
+      app: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  type: ClusterIP # Use ClusterIP for internal communication
+  ports:
+    - port: 5432
