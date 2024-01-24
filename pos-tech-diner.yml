@@ -27,6 +27,11 @@ spec:
           envFrom:
             - secretRef:
                 name: pos-tech-secret
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 500m
   selector:
     matchLabels:
       app: pos-tech-deployment
@@ -44,24 +49,3 @@ spec:
     - port: 80
       nodePort: 30000
       targetPort: 3333
-
----
-
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: pos-tech-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: pos-tech-deployment
-  minReplicas: 1
-  maxReplicas: 10
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 35
