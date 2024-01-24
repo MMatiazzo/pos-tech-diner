@@ -44,7 +44,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: pos-tech # Update this selector based on your PostgreSQL labels
+    app: pos-tech-deployment # Update this selector based on your PostgreSQL labels
   ports:
     - port: 80
       nodePort: 30000
