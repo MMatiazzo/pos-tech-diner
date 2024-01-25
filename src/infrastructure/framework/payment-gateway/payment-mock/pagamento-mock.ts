@@ -18,7 +18,7 @@ export class PagamentoMock implements IPaymentGateway {
         ? CardinalDirections.PAGAMENTO_CONFIRMADO
         : CardinalDirections.PAGAMENTO_RECUSADO;
 
-    await axios.put(`${process.env.APP_URL}/pedido`, {
+    await axios.put(`http://pos-tech-service:3333/pedido`, {
       id: data.pedidoId,
       status: newStatus,
     });

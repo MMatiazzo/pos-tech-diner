@@ -15,13 +15,13 @@ export class ProdutoPostgresRepository implements IProdutoRepositoryPort {
     return novoProduto;
   }
 
-  async editar(id: string, campo: "nome" | "preco" | "descricao" | "categoria", valor: string | number | string[]): Promise<Produto | never> {
+  async editar(id: string, campo: string, valor: string | number | string[]): Promise<Produto | never> {
     const updateData = { [campo]: valor };
     const produtoCriado = await this.prisma.produtos.update({
       where: {
         id,
       },
-      data: updateData
+      data:  updateData
     });
     return produtoCriado;
   }

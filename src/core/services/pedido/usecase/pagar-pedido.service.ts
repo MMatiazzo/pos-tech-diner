@@ -26,6 +26,13 @@ export class PagarPedidoService implements IPagarPedidoUseCase {
       throw new BadRequestException('Pedido já processado');
     }
 
-    await this.pagamentoMock.makePayment({ pedidoId, cartao });
+    // quick fix, ajustar quando puder
+    const novoStatus =
+      cartao === '5031433215406351'
+        ? CardinalDirections.PAGAMENTO_CONFIRMADO
+        : CardinalDirections.PAGAMENTO_RECUSADO;
+
+    await this.pedidoRepository.atualizarPedidoStatus(pedidoId, novoStatus)
+    // await this.pagamentoMock.makePayment({ pedidoId, cartao });
   }
 }
