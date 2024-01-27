@@ -7,7 +7,7 @@ export class CadastrarProdutoDto {
 
   @IsString()
   @IsNotEmpty()
-  categoria: string;
+  categoria: 'Lanche' | 'Sobremesa' | 'Acompanhamento' | 'Bebida';
 
   @IsNumber()
   @IsNotEmpty()

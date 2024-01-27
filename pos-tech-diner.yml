@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: pos-tech-image
-          image: mmatiazzo/pos-tech-diner:14.0
+          image: mmatiazzo/pos-tech-diner:15.0
           ports:
             - containerPort: 3333
           envFrom:

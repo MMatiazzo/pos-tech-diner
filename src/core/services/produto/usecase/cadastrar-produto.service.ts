@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { Produto } from "src/core/domain/produtos/entity/produto.entity";
 import { IProdutoRepositoryPort } from "src/core/domain/produtos/port/persistence/Iproduto-repository.port";
 import { ICadastraProdutoPort } from "src/core/domain/produtos/port/usecase/Icadastra-produto.port";
@@ -12,6 +12,9 @@ export class CadastrarProdutoService implements ICadastraProdutoUseCase {
   ) { }
 
   async execute(payload: ICadastraProdutoPort): Promise<Produto> {
+    if (!['Lanche', 'Sobremesa', 'Acompanhamento', 'Bebida'].includes(payload.categoria)) {
+      throw new BadRequestException('Categoria não permitida');
+    }
     const produtoEntity = Produto.new(payload);
     const produto = await this.produtoRepository.cadastrar(produtoEntity);
     return produto;
