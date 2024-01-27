@@ -1,10 +1,17 @@
 # Como rodar o projeto
 
-Clonar o projeto no github - https://github.com/MMatiazzo/pos-tech-diner
+Clonar o projeto no github - https://github.com/MMatiazzo/pos-tech-diner 
+<br>
+Utilizar a branch principal `master`
+<br>
 Entrar na pasta `pos-tech-diner`
+<br>
 Executar o comando `kubectl apply -f postgres.yml`
+<br>
 Executar o comando `kubectl apply -f pos-tech-diner.yml`
+<br>
 Executar o comando `kubectl apply -f hpa.yml`
+<br>
 
 ## JSON POSTMAN 
 A documentação extraída do postman está no arquivo chamado ***dinner.postman_collection.json*** na raiz do projeto. 
