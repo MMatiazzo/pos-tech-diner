@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "./generated/client"
+  previewFeatures = ["fullTextSearch"]
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  cpf    String?  @unique
+  nome   String
+  email  String   @id
+  Pedido Pedido[]
+
+  @@map("clientes")
+}
+
+model Produtos {
+  id          String        @id @default(uuid())
+  nome        String
+  categoria   String
+  preco       Int
+  descricao   String
+  imagens     String[]
+  PedidoItems PedidoItems[]
+
+  @@map("produtos")
+}
+
+model PedidoItems {
+  id String @id @default(uuid())
+
+  pedidoId String
+  pedidos  Pedido @relation(fields: [pedidoId], references: [id])
+
+  produtoId String
+  produtos  Produtos @relation(fields: [produtoId], references: [id])
+
+  @@map("pedidosItens")
+}
+
+model Pedido {
+  id     String @id @default(uuid())
+  status String
+
+  createdAt DateTime @default(now())
+
+  PedidoItems PedidoItems[]
+
+  clienteId String?
+  clientes  Cliente? @relation(fields: [clienteId], references: [email])
+
+  @@map("pedidos")
+}

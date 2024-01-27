@@ -1,0 +1,497 @@
+{
+	"info": {
+		"_postman_id": "be4f5f17-5087-4b68-94d3-4e7c57adffcc",
+		"name": "dinner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11413172",
+		"_collection_link": "https://warped-escape-624714.postman.co/workspace/post-tech~2931a1e9-f92e-468c-98e8-1b5d76e5d02d/collection/11413172-be4f5f17-5087-4b68-94d3-4e7c57adffcc?action=share&source=collection_link&creator=11413172"
+	},
+	"item": [
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "cadastrar-pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"produtosIds\": [\"9298bf68-35c7-4d27-9a99-c764dc9ea629\", \"4256d640-34fb-479c-a833-e1a027c907a0\"],\r\n    \"email\": \"jose@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/pedido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pagar-pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pedidoId\": \"310e66a2-3b76-4208-b97e-79e73117edc9\",\r\n    \"cartao\": \"5031433215406351\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/pedido/pagar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido",
+								"pagar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar-status-pedido",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"d660b825-0b0e-499d-813e-1dca47286ef8\",\r\n    \"status\": \"Recebido\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/pedido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar-pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/pedido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "busca-pedido-pagamento-status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/pedido/d660b825-0b0e-499d-813e-1dca47286ef8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido",
+								"d660b825-0b0e-499d-813e-1dca47286ef8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "set-cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cpf\": \"71731185065\",\r\n\t\"nome\": \"José\",\r\n\t\"email\": \"jose@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:30000/cliente",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar-cliente-por-email-ou-cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/cliente/71731185065",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"cliente",
+								"71731185065"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "cadastrar-produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Big Mac 4\",\r\n    \"categoria\": \"Lanche\",\r\n    \"preco\": 10,\r\n    \"descricao\": \"Lanche para todos\",\r\n    \"imagens\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remover-produto-por-id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/produto/54a808ed-de5c-4a49-8ccc-0e185e91d236",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"produto",
+								"54a808ed-de5c-4a49-8ccc-0e185e91d236"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar-produto-por-id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"campo\": \"nome\",\r\n    \"valor\": \"Comida Editada 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/produto/54a808ed-de5c-4a49-8ccc-0e185e91d236",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"produto",
+								"54a808ed-de5c-4a49-8ccc-0e185e91d236"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar-produto-por-categoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/produto/Lanche",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"produto",
+								"Lanche"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "passo-a-passo",
+			"item": [
+				{
+					"name": "1-cadastrar-cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cpf\": \"71731185065\",\r\n\t\"nome\": \"José\",\r\n\t\"email\": \"jose@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:30000/cliente",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2-cadastrar-produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Big Mac\",\r\n    \"categoria\": \"Lanche\",\r\n    \"preco\": 10,\r\n    \"descricao\": \"Lanche para todos\",\r\n    \"imagens\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/produto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3-buscar-produto-por-categoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/produto/Lanche",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"produto",
+								"Lanche"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4-cadastrar-pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"produtosIds\": [\"54a808ed-de5c-4a49-8ccc-0e185e91d236\"],\r\n    \"email\": \"jose@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/pedido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5-listar-pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/pedido",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6-pagar-pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pedidoId\": \"0cf94cf7-18ef-4232-b962-7f833afd87c0\",\r\n    \"cartao\": \"5031433215406351\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:30000/pedido/pagar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido",
+								"pagar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7-busca-pedido-pagamento-status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/pedido/0cf94cf7-18ef-4232-b962-7f833afd87c0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"pedido",
+								"0cf94cf7-18ef-4232-b962-7f833afd87c0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3333/",
+			"type": "string"
+		}
+	]
+}

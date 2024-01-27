@@ -1,10 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ServerApplication } from './application/server-application';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3333);
+async function runApplication(): Promise<void> {
+  const serverApplication: ServerApplication = ServerApplication.new();
+  await serverApplication.run();
 }
-bootstrap();
+
+(async (): Promise<void> => {
+  await runApplication();
+})();
