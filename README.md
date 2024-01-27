@@ -6,6 +6,11 @@ Executar o comando `kubectl apply -f postgres.yml`
 Executar o comando `kubectl apply -f pos-tech-diner.yml`
 Executar o comando `kubectl apply -f hpa.yml`
 
+## JSON POSTMAN 
+A documentação extraída do postman está no arquivo chamado ***dinner.postman_collection.json*** na raiz do projeto. 
+Nela tem uma pasta chamada ***passo-a-passo*** onde estão as rotas que foram descritas em sequência de passos nesse README.
+Todas as demais rotas descritas aqui estão em uma das outras pastas.
+
 **As rotas abaixo estão divididas da seguinte forma:**
 - **Rotas na ordem recomendada de utilização.**
 - **Demais rotas implementadas pela aplicação.**
@@ -52,9 +57,9 @@ Lanche, Sobremesa, Acompanhamento, Bebida
 ## End-point: buscar-produto-por-categoria
 ### Method: GET
 >```
->http://localhost:3333/produtos/:categoria
+>http://localhost:30000/produtos/:categoria
 >
->exemplo: http://localhost:3333/produtos/Lanche
+>exemplo: http://localhost:30000/produtos/Lanche
 >Categorias podem ser somente (Lanche | Sobremesa | Acompanhamento | Bebida)
 >```
 
@@ -64,7 +69,7 @@ Lanche, Sobremesa, Acompanhamento, Bebida
 >http://localhost:30000/pedido
 >```
 ### Body (**raw**)
-O atributo email é opcinal, caso não queira se identificar, retire-o.
+O atributo email é opcional, caso não queira se identificar, retire-o. O produto Id pode ser buscado na rota acima
 ```json
 {
     "produtosIds": ["f22db003-9505-4408-a7ad-a6b54f15eb84", "09e2d30f-544b-4ad7-815e-645cfbdbfd44"],
@@ -87,7 +92,7 @@ Os pedidos são listados na seguinte ordem:
 >http://localhost:30000/pedido/pagar
 >```
 ### Body (**raw**)
-Aqui fizemos um mock de pagamento seguindo os padrões do marcado pago. O cartão mock (5031433215406351) paga o pedido, qualquer outro leva à pagamento recusado.
+Aqui fizemos um mock de pagamento seguindo os padrões do marcado pago. O cartão mock (5031433215406351) paga o pedido, qualquer outro leva à pagamento recusado. O pedidoId pode ser encontrado na rota acima
 ```json
 {
     "pedidoId": "310e66a2-3b76-4208-b97e-79e73117edc9",
@@ -179,7 +184,4 @@ Identificação: Meio utilizado por clientes já cadastrados para se identificar
 # Link do Event Storming
 [Event Storming - Miro](https://miro.com/app/board/uXjVNexvhM8=/?share_link_id=118973744778)
 
-## JSON POSTMAN 
-A documentação extraída do postman está no arquivo chamado ***dinner.postman_collection.json*** na raiz do projeto. 
-Nela tem uma pasta chamada ***passo-a-passo*** onde estão as rotas que foram descritas em sequência de passos nesse README.
-Todas as demais rotas descritas aqui estão em uma das outras pastas.
+## O desenhor da arquitetura se encontra na raiz do projeto com o nome `arquitetura.jpg`
