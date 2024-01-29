@@ -194,4 +194,4 @@ Identificação: Meio utilizado por clientes já cadastrados para se identificar
 # Link do Event Storming
 [Event Storming - Miro](https://miro.com/app/board/uXjVNexvhM8=/?share_link_id=118973744778)
 
-## O desenhor da arquitetura se encontra na raiz do projeto com o nome `arquitetura.jpg`
+#### O desenho da arquitetura se encontra na raiz do projeto com o nome `arquitetura.jpg`
