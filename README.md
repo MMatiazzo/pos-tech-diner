@@ -13,6 +13,9 @@ Executar o comando `kubectl apply -f pos-tech-diner.yml`
 Executar o comando `kubectl apply -f hpa.yml`
 <br>
 
+## Link do vídeo sobre a arquitetura
+[Arquitetura utilizada](https://www.youtube.com/watch?v=H6njjq0Qd_w)
+
 ## JSON POSTMAN 
 A documentação extraída do postman está no arquivo chamado ***dinner.postman_collection.json*** na raiz do projeto. 
 Nela tem uma pasta chamada ***passo-a-passo*** onde estão as rotas que foram descritas em sequência de passos nesse README.
