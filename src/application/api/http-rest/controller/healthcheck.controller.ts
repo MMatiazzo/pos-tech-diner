@@ -3,7 +3,9 @@ import { Controller, Get } from '@nestjs/common';
 @Controller('')
 export class HealthcheckController {
   @Get('')
-  check(): void {
-    console.log('Aplication is available!');
+  check(): String {
+    console.info('Aplication is available');
+    return "Aplication is available";
+
   }
 }
