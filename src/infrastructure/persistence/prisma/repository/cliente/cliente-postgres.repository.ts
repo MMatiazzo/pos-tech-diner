@@ -2,9 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Cliente } from "../../../../../core/domain/cliente/entity/cliente.entity";
 import { IClienteRepositoryPort } from "../../../../../core/domain/cliente/ports/persistence/Icliente-repository.port";
 import { PrismaService } from "../../prisma.service";
-import { Prisma } from '@prisma/client';
-
-type ClienteWhereUniqueInput = Prisma.ClienteWhereUniqueInput;
 
 @Injectable()
 export class ClientePostgresRepository implements IClienteRepositoryPort {

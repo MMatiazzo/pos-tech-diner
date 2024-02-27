@@ -45,4 +45,4 @@ const useCaseProviders: Provider[] = [
     ...useCaseProviders,
   ],
 })
-export class ClienteModule {}
+export class ClienteModule { }
