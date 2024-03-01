@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 env:
-  AWS_REGION: $MY_AWS_REGION
-  ECR_REPOSITORY: $MY_ECR_REPOSITORY
+  AWS_REGION: ${{ vars.MY_AWS_REGION }}
+  ECR_REPOSITORY: ${{ vars.MY_ECR_REPOSITORY }}
 
 permissions:
   contents: read
