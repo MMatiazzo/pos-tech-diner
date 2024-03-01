@@ -1,4 +1,4 @@
-import { Cliente } from "@prisma/client";
+import { Cliente } from "../entity/cliente.entity";
 import { IIdentificaClientePort } from "../ports/usecase/Iidentifica-cliente.port";
 
 export interface IIdentificaClienteUseCase {
