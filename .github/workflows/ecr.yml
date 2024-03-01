@@ -3,12 +3,11 @@ name: Push image to Amazon ECR
 on:
   push:
     branches:
-      - master
-  workflow_dispatch:
+      - main
 
 env:
-  AWS_REGION: ${{ env.MY_AWS_REGION }}
-  ECR_REPOSITORY: ${{ env.MY_ECR_REPOSITORY }}
+  AWS_REGION: $MY_AWS_REGION
+  ECR_REPOSITORY: $MY_ECR_REPOSITORY
 
 permissions:
   contents: read
