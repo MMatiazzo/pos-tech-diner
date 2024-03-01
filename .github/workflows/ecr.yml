@@ -2,7 +2,9 @@ name: Push image to Amazon ECR
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches:
+      - master
+  workflow_dispatch:
 
 env:
   AWS_REGION: ${{ env.MY_AWS_REGION }}
