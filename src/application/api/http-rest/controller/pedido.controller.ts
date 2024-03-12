@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Session,
 } from '@nestjs/common';
 import { Pedido } from 'src/core/domain/pedidos/entity/pedido.entity';
 import { ICadastrarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Icadastra-pedido.usecase';
@@ -17,7 +18,7 @@ import { IAtualizarPedidoStatusUseCase } from 'src/core/domain/pedidos/usecase/I
 import { PagarPedidoDto } from '../dtos/pagarPedido.dto';
 import { IPagarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ipagar-pedido.usecase';
 
-@Controller('pedido')
+@Controller('api/pedido')
 export class PedidoController {
   constructor(
     @Inject(ICadastrarPedidoUseCase)
@@ -37,8 +38,11 @@ export class PedidoController {
   ) { }
 
   @Post()
-  async cadastrar(@Body() payload: CadastrarPedidoDto): Promise<Pedido> {
-    const pedido = await this.cadastrarPedidoService.execute(payload);
+  async cadastrar(
+    @Body() payload: CadastrarPedidoDto,
+    @Session() session: Record<string, any>
+  ): Promise<Pedido> {
+    const pedido = await this.cadastrarPedidoService.execute({ ...payload, session });
     return pedido;
   }
 

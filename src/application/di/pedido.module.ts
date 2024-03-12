@@ -7,19 +7,21 @@ import { IPedidosRepositoryPort } from 'src/core/domain/pedidos/port/persistence
 import { ICadastrarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Icadastra-pedido.usecase';
 
 import { IClienteRepositoryPort } from 'src/core/domain/cliente/ports/persistence/Icliente-repository.port';
-import { CadastrarPedidoService } from 'src/core/services/pedido/usecase/cadastrar-pedido.service';
-import { ClientePostgresRepository } from 'src/infrastructure/persistence/prisma/repository/cliente/cliente-postgres.repository';
-import { PedidoPostgresRepository } from 'src/infrastructure/persistence/prisma/repository/pedido/pedido-postgres.repository';
-import { PedidoController } from '../api/http-rest/controller/pedido.controller';
-import { IListaPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ilista-pedido.usecase';
-import { ListaPedidoService } from 'src/core/services/pedido/usecase/listar-pedido.service';
-import { IGetPedidoPagamentoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iget-pagamento-pedido-status.usecase';
-import { GetPagamentoPedidoStatusService } from 'src/core/services/pedido/usecase/get-pagamento-pedido-status.service';
 import { IAtualizarPedidoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iatuliza-pedido-status.usecase';
-import { AtualizarPedidoStatusService } from 'src/core/services/pedido/usecase/atualizar-pedido-status.service';
+import { IGetPedidoPagamentoStatusUseCase } from 'src/core/domain/pedidos/usecase/Iget-pagamento-pedido-status.usecase';
+import { IListaPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ilista-pedido.usecase';
 import { IPagarPedidoUseCase } from 'src/core/domain/pedidos/usecase/Ipagar-pedido.usecase';
+import { IProdutoRepositoryPort } from 'src/core/domain/produtos/port/persistence/Iproduto-repository.port';
+import { AtualizarPedidoStatusService } from 'src/core/services/pedido/usecase/atualizar-pedido-status.service';
+import { CadastrarPedidoService } from 'src/core/services/pedido/usecase/cadastrar-pedido.service';
+import { GetPagamentoPedidoStatusService } from 'src/core/services/pedido/usecase/get-pagamento-pedido-status.service';
+import { ListaPedidoService } from 'src/core/services/pedido/usecase/listar-pedido.service';
 import { PagarPedidoService } from 'src/core/services/pedido/usecase/pagar-pedido.service';
 import { PagamentoMock } from 'src/infrastructure/framework/payment-gateway/payment-mock/pagamento-mock';
+import { ClientePostgresRepository } from 'src/infrastructure/persistence/prisma/repository/cliente/cliente-postgres.repository';
+import { PedidoPostgresRepository } from 'src/infrastructure/persistence/prisma/repository/pedido/pedido-postgres.repository';
+import { ProdutoPostgresRepository } from 'src/infrastructure/persistence/prisma/repository/produto/produto-postgres.repository';
+import { PedidoController } from '../api/http-rest/controller/pedido.controller';
 
 const persistenceProviders: Provider[] = [
   PrismaService,
@@ -34,6 +36,12 @@ const persistenceProviders: Provider[] = [
       new ClientePostgresRepository(prisma),
     inject: [PrismaService],
   },
+  {
+    provide: IProdutoRepositoryPort,
+    useFactory: (prisma: PrismaService) =>
+      new ProdutoPostgresRepository(prisma),
+    inject: [PrismaService],
+  },
 ];
 
 const useCaseProviders: Provider[] = [
@@ -42,8 +50,9 @@ const useCaseProviders: Provider[] = [
     useFactory: (
       pedidoRepository: IPedidosRepositoryPort,
       clienteRepository: IClienteRepositoryPort,
-    ) => new CadastrarPedidoService(pedidoRepository, clienteRepository),
-    inject: [IPedidosRepositoryPort, IClienteRepositoryPort],
+      produtoRepository: IProdutoRepositoryPort,
+    ) => new CadastrarPedidoService(pedidoRepository, clienteRepository, produtoRepository),
+    inject: [IPedidosRepositoryPort, IClienteRepositoryPort, IProdutoRepositoryPort],
   },
   {
     provide: IGetPedidoPagamentoStatusUseCase,

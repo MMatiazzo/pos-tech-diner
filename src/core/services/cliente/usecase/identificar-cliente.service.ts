@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { IIdentificaClientePort } from "src/core/domain/cliente/ports/usecase/Iidentifica-cliente.port";
 import { IIdentificaClienteUseCase } from "src/core/domain/cliente/usecase/Iidentifica-cliente.usecase";
 import { IClienteRepositoryPort } from "../../../domain/cliente/ports/persistence/Icliente-repository.port";
@@ -12,14 +12,21 @@ export class IdentificaClienteService implements IIdentificaClienteUseCase {
   ) { }
 
   async execute({ cpf, session, password }: IIdentificaClientePort): Promise<any> {
-    const cliente = await this.clienteRepository.getCliente(cpf);
 
-    const serverlessPayload = { cpf: cliente.cpf, password };
+    const userInfos = !cpf ? { cpf: '', password: '' } : { cpf, password };
+
+    const cliente = await this.clienteRepository.getCliente(userInfos.cpf);
+
+    if (!cliente) {
+      throw new BadRequestException("CPF not found");
+    }
+
+    const serverlessPayload = { cpf: cliente.cpf, password: userInfos.password };
 
     AWS.config.update({
       region: 'us-east-1', // Replace with your AWS region
-      accessKeyId: 'AKIAVQDOH4WS7O45EZGK', // Replace with your AWS access key ID
-      secretAccessKey: 'u6jk0ue/J4sVMHB++3Uzim6sWaprnYDJ3gLctqDw' // Replace with your AWS secret access key
+      accessKeyId: '', // Replace with your AWS access key ID
+      secretAccessKey: '' // Replace with your AWS secret access key
     });
 
     const lambda = new AWS.Lambda();
@@ -31,8 +38,10 @@ export class IdentificaClienteService implements IIdentificaClienteUseCase {
 
     const token = await lambda.invoke(params).promise();
 
-    session.auth = token;
+    const clienteSession = !cpf ? null : cliente;
 
-    return cliente;
+    session.auth = { token, cliente: clienteSession };
+
+    return { ...cliente, token };
   }
 }
