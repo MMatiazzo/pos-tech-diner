@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, NotFoundException, Param, Post, Req, Session } from '@nestjs/common';
 import { IIdentificaClientePort } from 'src/core/domain/cliente/ports/usecase/Iidentifica-cliente.port';
 import { IIdentificaClienteUseCase } from 'src/core/domain/cliente/usecase/Iidentifica-cliente.usecase';
 import { ICadastraClienteUseCase } from "../../../../core/domain/cliente/usecase/Icadastra-cliente.usecase";
@@ -20,9 +20,13 @@ export class ClienteController {
     return cliente;
   }
 
-  @Get(':cpf')
-  async identificar(@Param() payload: IIdentificaClientePort): Promise<any> {
-    const cliente = await this.identifiarClienteService.execute(payload);
+  @Post('/signin')
+  async signin(
+    @Session() session: Record<string, any>,
+    @Body() payload: IIdentificaClientePort
+  ): Promise<any> {
+    const cliente = await this.identifiarClienteService.execute({ ...payload, session });
+
     if (!cliente) {
       throw new NotFoundException;
     }

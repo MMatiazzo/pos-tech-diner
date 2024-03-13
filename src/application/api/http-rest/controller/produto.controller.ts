@@ -8,7 +8,7 @@ import { EditarPedidoDto } from '../dtos/editarProduto.dto';
 import { IBuscarProdutoPorCategoriaUseCase } from 'src/core/domain/produtos/usecase/Ibuscar-produto-por-categoria.usecase';
 import { ListarProdutoDto } from '../dtos/produtoDto/listarProdutoDto';
 
-@Controller('produto')
+@Controller('api/produto')
 export class ProdutoController {
   constructor(
     @Inject(ICadastraProdutoUseCase)
