@@ -1,11 +1,12 @@
-import { CriaProdutoEntityPayload } from "./type/cria-produto-entity.payload"
+import { CriaProdutoEntityPayload } from './type/cria-produto-entity.payload';
 
 export class Produto {
-  nome: string
+  id?: string;
+  nome: string;
   categoria: string;
-  preco: number
-  descricao: string
-  imagens: string[]
+  preco: number;
+  descricao: string;
+  imagens: string[];
 
   private constructor(paylod: CriaProdutoEntityPayload) {
     this.nome = paylod.nome;
