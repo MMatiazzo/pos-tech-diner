@@ -4,6 +4,7 @@ import { CardinalDirections, Pedido } from "src/core/domain/pedidos/entity/pedid
 import { IPedidosRepositoryPort } from "src/core/domain/pedidos/port/persistence/Ipedido-repository.port";
 import { ICadastraPedidoPort } from "src/core/domain/pedidos/port/usecase/Icadastra-pedido.port";
 import { ICadastrarPedidoUseCase } from "src/core/domain/pedidos/usecase/Icadastra-pedido.usecase";
+import { IProdutoRepositoryPort } from "src/core/domain/produtos/port/persistence/Iproduto-repository.port";
 
 @Injectable()
 export class CadastrarPedidoService implements ICadastrarPedidoUseCase {
@@ -12,14 +13,25 @@ export class CadastrarPedidoService implements ICadastrarPedidoUseCase {
     private pedidoRepository: IPedidosRepositoryPort,
 
     @Inject(IClienteRepositoryPort)
-    private clienteRepository: IClienteRepositoryPort
+    private clienteRepository: IClienteRepositoryPort,
+
+    @Inject(IProdutoRepositoryPort)
+    private produtoRepository: IProdutoRepositoryPort
   ) { }
 
-  async execute({ cpf, email, produtosIds }: ICadastraPedidoPort): Promise<any> {
-    const cliente = !cpf && !email ? null : await this.clienteRepository.getCliente(cpf || email);
+  async execute({ produtosIds, session }: ICadastraPedidoPort): Promise<any> {
+    const clienteSession = session?.auth?.cliente;
 
-    if (cliente === undefined) {
+    const cliente = !clienteSession ? null : await this.clienteRepository.getCliente(clienteSession.cpf);
+
+    if (cliente === undefined && clienteSession) {
       throw new BadRequestException('Cliente não cadastrado no sistema');
+    }
+
+    const produtos = await this.produtoRepository.buscarPorIds(produtosIds);
+
+    if (produtos.length !== produtosIds.length) {
+      throw new BadRequestException('Algum produto não foi encontrado');
     }
 
     const pedidoEntity = Pedido.new({
@@ -29,8 +41,8 @@ export class CadastrarPedidoService implements ICadastrarPedidoUseCase {
       produtosIds
     });
 
-    const produto = await this.pedidoRepository.criar(produtosIds, pedidoEntity);
+    const pedido = await this.pedidoRepository.criar(produtosIds, pedidoEntity);
 
-    return produto;
+    return pedido;
   }
 }

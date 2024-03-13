@@ -21,7 +21,7 @@ export class ProdutoPostgresRepository implements IProdutoRepositoryPort {
       where: {
         id,
       },
-      data:  updateData
+      data: updateData
     });
     return produtoCriado;
   }
@@ -37,6 +37,14 @@ export class ProdutoPostgresRepository implements IProdutoRepositoryPort {
   async buscar(categoria: string): Promise<Produto[]> {
     const produtos = await this.prisma.produtos.findMany({
       where: { categoria }
+    });
+
+    return produtos;
+  }
+
+  async buscarPorIds(ids: string[]): Promise<Produto[]> {
+    const produtos = await this.prisma.produtos.findMany({
+      where: { id: { in: ids } }
     });
 
     return produtos;

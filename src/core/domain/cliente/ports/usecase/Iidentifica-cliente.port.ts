@@ -1,6 +1,6 @@
 
 export interface IIdentificaClientePort {
-  cpf: string;
-  password: string;
-  session: any;
+  cpf?: string;
+  password?: string;
+  session?: any;
 }

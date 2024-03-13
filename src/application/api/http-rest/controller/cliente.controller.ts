@@ -20,13 +20,12 @@ export class ClienteController {
     return cliente;
   }
 
-  @Post(':cpf')
+  @Post('/signin')
   async signin(
-    @Param() payload: IIdentificaClientePort,
     @Session() session: Record<string, any>,
-    @Body() password: String
+    @Body() payload: IIdentificaClientePort
   ): Promise<any> {
-    const cliente = await this.identifiarClienteService.execute({ ...payload, ...password, session });
+    const cliente = await this.identifiarClienteService.execute({ ...payload, session });
 
     if (!cliente) {
       throw new NotFoundException;
