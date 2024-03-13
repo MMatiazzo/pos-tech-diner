@@ -2,6 +2,9 @@ import { Produto } from 'src/core/domain/produtos/entity/produto.entity';
 import { IProdutoRepositoryPort } from 'src/core/domain/produtos/port/persistence/Iproduto-repository.port';
 
 export class ProdutoMockRepository implements IProdutoRepositoryPort {
+  buscarPorIds(ids: string[]): Promise<Produto[]> {
+    throw new Error('Method not implemented.');
+  }
   buscar(categoria: string): Promise<Produto[]> {
     throw new Error('Method not implemented.');
   }
