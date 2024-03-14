@@ -2,18 +2,28 @@ import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { IIdentificaClientePort } from "src/core/domain/cliente/ports/usecase/Iidentifica-cliente.port";
 import { IIdentificaClienteUseCase } from "src/core/domain/cliente/usecase/Iidentifica-cliente.usecase";
 import { IClienteRepositoryPort } from "../../../domain/cliente/ports/persistence/Icliente-repository.port";
-import * as AWS from 'aws-sdk';
+import { env } from "process";
+import { IAuthLambdaGateway } from "src/infrastructure/framework/aws/lambda/Iauth-lambda.gateway";
 
 @Injectable()
 export class IdentificaClienteService implements IIdentificaClienteUseCase {
   constructor(
     @Inject(IClienteRepositoryPort)
-    private clienteRepository: IClienteRepositoryPort
+    private clienteRepository: IClienteRepositoryPort,
+
+    @Inject(IAuthLambdaGateway)
+    private authLambda: IAuthLambdaGateway
   ) { }
 
-  async execute({ cpf, session, password }: IIdentificaClientePort): Promise<any> {
+  async execute({ cpf, session, password, authenticate }: IIdentificaClientePort): Promise<any> {
 
-    const userInfos = !cpf ? { cpf: '', password: '' } : { cpf, password };
+    if (authenticate && !cpf || !password) {
+      throw new BadRequestException('Precisamos do CPF e do PASSWORD para autenticarmos o signin');
+    }
+
+    const userInfos = !authenticate ?
+      { cpf: env.DEFAULT_COGNITO_CPF, password: env.DEFAULT_COGNITO_PASSWORD } :
+      { cpf, password };
 
     const cliente = await this.clienteRepository.getCliente(userInfos.cpf);
 
@@ -23,22 +33,19 @@ export class IdentificaClienteService implements IIdentificaClienteUseCase {
 
     const serverlessPayload = { cpf: cliente.cpf, password: userInfos.password };
 
-    AWS.config.update({
-      region: 'us-east-1', // Replace with your AWS region
-      accessKeyId: '', // Replace with your AWS access key ID
-      secretAccessKey: '' // Replace with your AWS secret access key
-    });
+    const clienteSession = !authenticate ? null : cliente;
 
-    const lambda = new AWS.Lambda();
+    const token = await this.authLambda.authorization(
+      serverlessPayload.cpf,
+      serverlessPayload.password,
+      false,
+      null,
+      null,
+    );
 
-    const params = {
-      FunctionName: 'pos-tech-diner-authentication-function', // Replace with your Lambda function name
-      Payload: JSON.stringify({ ...serverlessPayload }) // Payload to be sent to the Lambda function
-    };
-
-    const token = await lambda.invoke(params).promise();
-
-    const clienteSession = !cpf ? null : cliente;
+    if (token?.StatusCode !== 200) {
+      throw new BadRequestException("Error on signup");
+    }
 
     session.auth = { token, cliente: clienteSession };
 

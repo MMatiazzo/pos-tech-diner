@@ -6,6 +6,5 @@ export class HealthcheckController {
   check(): String {
     console.info('Aplication is available');
     return "Aplication is available";
-
   }
 }

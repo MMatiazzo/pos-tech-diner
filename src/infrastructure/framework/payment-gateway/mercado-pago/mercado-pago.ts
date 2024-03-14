@@ -34,7 +34,6 @@ export class MercadoPago implements IPaymentGateway {
     };
 
     const response = await axios.post(url, JSON.stringify(body));
-    console.log(response.data);
 
     return response.data;
   }
