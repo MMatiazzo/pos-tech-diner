@@ -17,7 +17,7 @@ export class ServerApplication {
         saveUninitialized: false,
       }),
     );
-    console.log('teste imagem mudou');
+    console.log('teste imagem mudou 2');
     await app.listen(3333);
   }
 
