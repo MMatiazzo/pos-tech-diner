@@ -9,7 +9,21 @@ metadata:
   name: pos-tech-secret
   namespace: postech
 data:
-  DATABASE_URL: cG9zdGdyZXNxbDovL3Bvc3RncmVzX3VzZXJuYW1lOnBvc3RncmVzX3Bhc3N3b3JkQHJkcy1wb3MtdGVjaC1kaW5lci5jcGl1cWNzMm92NTYudXMtZWFzdC0xLnJkcy5hbWF6b25hd3MuY29tOjU0MzIvcG9zdGVjaGRpbmVyZGI=
+  DATABASE_URL: #{DATABASE_URL}#
+  AWS_LAMBDA_SDK_ACCESS_KEY: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
+  AWS_LAMBDA_SECRET_ACCESS_KEY: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
+  DEFAULT_COGNITO_PASSWORD: #{AWS_LAMBDA_SDK_ACCESS_KEY}# 
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pos-tech-config-map
+  namespace: postech
+data:
+  AWS_LAMBDA_FUNCTION_NAME: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
+  DEFAULT_COGNITO_CPF: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
+  MY_AWS_REGION: #{MY_AWS_REGION}#
 
 ---
 apiVersion: apps/v1
@@ -33,7 +47,9 @@ spec:
             - containerPort: 3333
           envFrom:
             - secretRef:
-                name: pos-tech-secret
+                name: "pos-tech-secret"
+            - configMapRef:
+                name: "pos-tech-config-map"
           resources:
             requests:
               cpu: 100m

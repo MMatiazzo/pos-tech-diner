@@ -1,6 +1,8 @@
 
 export interface ICadastraClientePort {
-  cpf?: string;
+  cpf: string;
   nome: string;
   email: string;
+  password: string;
+  session: Record<string, any>
 }
