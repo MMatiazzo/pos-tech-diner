@@ -11,8 +11,8 @@ metadata:
 data:
   DATABASE_URL: #{DATABASE_URL}#
   AWS_LAMBDA_SDK_ACCESS_KEY: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
-  AWS_LAMBDA_SECRET_ACCESS_KEY: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
-  DEFAULT_COGNITO_PASSWORD: #{AWS_LAMBDA_SDK_ACCESS_KEY}# 
+  AWS_LAMBDA_SECRET_ACCESS_KEY: #{AWS_LAMBDA_SECRET_ACCESS_KEY}#
+  DEFAULT_COGNITO_PASSWORD: #{DEFAULT_COGNITO_PASSWORD}#
 
 ---
 apiVersion: v1
@@ -21,8 +21,8 @@ metadata:
   name: pos-tech-config-map
   namespace: postech
 data:
-  AWS_LAMBDA_FUNCTION_NAME: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
-  DEFAULT_COGNITO_CPF: #{AWS_LAMBDA_SDK_ACCESS_KEY}#
+  AWS_LAMBDA_FUNCTION_NAME: #{AWS_LAMBDA_FUNCTION_NAME}#
+  DEFAULT_COGNITO_CPF: #{DEFAULT_COGNITO_CPF}#
   MY_AWS_REGION: #{MY_AWS_REGION}#
 
 ---
@@ -71,9 +71,9 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-name: test
 spec:
   ports:
-  - port: 80
-    targetPort: 3333
-    protocol: TCP
+    - port: 80
+      targetPort: 3333
+      protocol: TCP
   type: LoadBalancer
   selector:
     app: pos-tech-deployment
