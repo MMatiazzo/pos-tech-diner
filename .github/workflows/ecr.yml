@@ -82,7 +82,7 @@ jobs:
         id: aws-secrets
         with:
           secret-ids: |
-            ${{ secrets.  }}
+            ${{ secrets.AWS_SECRETS_ARN_DEPLOYMENT_EKS }}
           parse-json-secrets: true
 
       - name: Inject secrets
