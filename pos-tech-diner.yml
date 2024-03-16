@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
         - name: pos-tech-image
-          image: 378188326309.dkr.ecr.us-east-1.amazonaws.com/pos-tech-diner-app:latest
+          image: #{POS_TECH_DINER_IMAGE}#
           ports:
             - containerPort: 3333
           envFrom:
