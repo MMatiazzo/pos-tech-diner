@@ -23,11 +23,11 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: "20.x"
       - run: npm ci
       - run: npm test
 
-  deploy:
+  deploy-ecr:
     name: Push image
     needs: test
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: latest
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -60,3 +60,50 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+  deploy-eks:
+    name: "Deploy pod to EKS"
+    needs: deploy-ecr
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Map AWS secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        id: aws-secrets
+        with:
+          secret-ids: |
+            ${{ secrets.  }}
+          parse-json-secrets: true
+
+      - name: Inject secrets
+        uses: cschleiden/replace-tokens@v1
+        with:
+          files: '["*.yml"]'
+        env:
+          AWS_LAMBDA_SDK_ACCESS_KEY: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_AWS_LAMBDA_SDK_ACCESS_KEY
+          DATABASE_URL: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_AWS_LAMBDA_DATABASE_URL
+          AWS_LAMBDA_SECRET_ACCESS_KEY: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_AWS_LAMBDA_SECRET_ACCESS_KEYY
+          DEFAULT_COGNITO_PASSWORD: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_DEFAULT_COGNITO_PASSWORD
+          AWS_LAMBDA_FUNCTION_NAME: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_AWS_LAMBDA_FUNCTION_NAME
+          DEFAULT_COGNITO_CPF: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_DEFAULT_COGNITO_CPF
+          MY_AWS_REGION: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_MY_AWS_REGION
+
+      - name: Deploy to AWS EKS
+        uses: giovannirossini/aws-eks-kubectl-action@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+          cluster-name: "pos-tech-diner-cluster"
+          command: |
+            kubectl apply -f pos-tech-diner.yaml
