@@ -27,39 +27,39 @@ jobs:
   # - run: npm ci
   # - run: npm test
 
-  deploy-ecr:
-    name: Push image
-    # needs: test
-    runs-on: ubuntu-latest
-    environment: production
+  # deploy-ecr:
+  #   name: Push image
+  #   # needs: test
+  #   runs-on: ubuntu-latest
+  #   environment: production
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: latest
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+  #     - name: Build, tag, and push image to Amazon ECR
+  #       id: build-image
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #         IMAGE_TAG: latest
+  #       run: |
+  #         # Build a docker container and
+  #         # push it to ECR so that it can
+  #         # be deployed to ECS.
+  #         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
   deploy-eks:
     name: "Deploy pod to EKS"
@@ -98,12 +98,11 @@ jobs:
           DEFAULT_COGNITO_CPF: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_DEFAULT_COGNITO_CPF
           MY_AWS_REGION: $POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_MY_AWS_REGION
 
-      - name: Deploy to AWS EKS
-        uses: giovannirossini/aws-eks-kubectl-action@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-1"
-          cluster-name: "pos-tech-diner-cluster"
-          command: |
-            kubectl apply -f pos-tech-diner.yaml
+      - name: Update KubeConfig
+        shell: bash
+        run: |
+          aws eks update-kubeconfig --name pos-tech-diner-cluster --region us-east-1
+
+      - name: Deploy To Cluster
+        shell: bash
+        run: kubectl apply -f pos-tech-diner.yml
