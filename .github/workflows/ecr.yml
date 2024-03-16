@@ -98,13 +98,14 @@ jobs:
           DEFAULT_COGNITO_CPF: ${{ env.POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_DEFAULT_COGNITO_CPF }}
           MY_AWS_REGION: ${{ env.POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_MY_AWS_REGION }}
 
-      - name: cat file test
-        run: cat pos-tech-diner.yml
-      # - name: Update KubeConfig
-      #   shell: bash
-      #   run: |
-      #     aws eks update-kubeconfig --name pos-tech-diner-cluster --region us-east-1
+      # - name: cat file test
+      #   run: cat pos-tech-diner.yml
 
-      # - name: Deploy To Cluster
-      #   shell: bash
-      #   run: kubectl apply -f pos-tech-diner.yml
+      - name: Update KubeConfig
+        shell: bash
+        run: |
+          aws eks update-kubeconfig --name pos-tech-diner-cluster --region us-east-1
+
+      - name: Deploy To Cluster
+        shell: bash
+        run: kubectl apply -f pos-tech-diner.yml
