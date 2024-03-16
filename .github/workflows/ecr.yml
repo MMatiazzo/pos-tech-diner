@@ -63,7 +63,7 @@ jobs:
 
   deploy-eks:
     name: "Deploy pod to EKS"
-    needs: deploy-ecr
+    # needs: deploy-ecr
     runs-on: ubuntu-latest
 
     steps:
