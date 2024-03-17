@@ -11,6 +11,11 @@ export class AuthLambda implements IAuthLambdaGateway {
     email: string | null,
   ) {
 
+    console.log('PRINT NAS ENVS');
+    console.log('env.MY_AWS_REGION => ', env.MY_AWS_REGION);
+    console.log('env.AWS_LAMBDA_SDK_ACCESS_KEY => ', env.AWS_LAMBDA_SDK_ACCESS_KEY);
+    console.log('env.AWS_LAMBDA_SECRET_ACCESS_KEY => ', env.AWS_LAMBDA_SECRET_ACCESS_KEY);
+
     AWS.config.update({
       region: env.MY_AWS_REGION,
       accessKeyId: env.AWS_LAMBDA_SDK_ACCESS_KEY,
