@@ -25,6 +25,8 @@ export class AuthLambda implements IAuthLambdaGateway {
 
     const lambda = new AWS.Lambda();
 
+    console.log('lambda => ', lambda);
+
     const params = {
       FunctionName: env.AWS_LAMBDA_FUNCTION_NAME,
       Payload: JSON.stringify({ cpf, password, signup, username, email })
