@@ -88,7 +88,7 @@ jobs:
       - name: Inject secrets
         uses: cschleiden/replace-tokens@v1
         with:
-          files: '["*.yml"]'
+          files: '["*.yml",".env"]'
         env:
           AWS_LAMBDA_SDK_ACCESS_KEY: ${{ env.POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_AWS_LAMBDA_SDK_ACCESS_KEY }}
           DATABASE_URL: ${{ env.POS_TECH_DINER_SECRETS_DEPLOYMENT_SECRETS_DATABASE_URL }}
