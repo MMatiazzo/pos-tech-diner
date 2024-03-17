@@ -17,7 +17,7 @@ export class IdentificaClienteService implements IIdentificaClienteUseCase {
 
   async execute({ cpf, session, password, authenticate }: IIdentificaClientePort): Promise<any> {
 
-    if (authenticate && !cpf || !password) {
+    if (authenticate && (!cpf || !password)) {
       throw new BadRequestException('Precisamos do CPF e do PASSWORD para autenticarmos o signin');
     }
 
