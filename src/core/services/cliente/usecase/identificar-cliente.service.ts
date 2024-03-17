@@ -21,6 +21,9 @@ export class IdentificaClienteService implements IIdentificaClienteUseCase {
       throw new BadRequestException('Precisamos do CPF e do PASSWORD para autenticarmos o signin');
     }
 
+    console.log("env.DEFAULT_COGNITO_CPF => ", env.DEFAULT_COGNITO_CPF);
+    console.log("env.DEFAULT_COGNITO_PASSWORD => ", env.DEFAULT_COGNITO_PASSWORD);
+
     const userInfos = !authenticate ?
       { cpf: env.DEFAULT_COGNITO_CPF, password: env.DEFAULT_COGNITO_PASSWORD } :
       { cpf, password };
