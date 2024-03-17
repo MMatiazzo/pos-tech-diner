@@ -5,6 +5,6 @@ export class HealthcheckController {
   @Get('')
   check(): String {
     console.info('Aplication is available');
-    return "Aplication is available";
+    return "Aplication is available auto-deploy";
   }
 }
